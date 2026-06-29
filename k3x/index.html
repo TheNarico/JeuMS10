@@ -38,25 +38,34 @@
   h1{font-family:'UnifrakturCook',cursive; font-size:2.3rem; color:var(--bordeaux); line-height:1.1; margin-bottom:4px;}
   .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.1rem; color:var(--rougeclair); margin-bottom:20px;}
   .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
-  .grid-wrap{display:flex; justify-content:center; margin:6px 0 8px;}
-  table.grid{border-collapse:collapse; margin:0 auto;}
-  table.grid td{width:34px; height:34px; padding:0; position:relative; border:1px solid #b89a5e;}
-  td.black{background:#2a2018; border-color:#2a2018;}
-  td.cell{background:#fffdf7;}
+
+  .grid-wrap{display:flex; justify-content:center; margin:10px 0 8px;}
+  table.grid{border-collapse:separate; border-spacing:3px; margin:0 auto;
+    background:#e7cd96; padding:8px; border-radius:12px;
+    box-shadow:inset 0 1px 4px rgba(120,80,30,.25);}
+  table.grid td{width:36px; height:36px; padding:0; position:relative; border-radius:6px;}
+  td.void{background:transparent;}
+  td.cell{
+    background:#fffdf6;
+    box-shadow:inset 0 0 0 1px #d8b878, 0 1px 2px rgba(120,80,30,.18);
+  }
   td.cell input{
     width:100%; height:100%; border:none; background:transparent;
     text-align:center; font-family:'Andada Pro',serif; font-weight:700;
-    font-size:1.05rem; color:var(--bordeaux); text-transform:uppercase; padding:0; outline:none;
+    font-size:1.1rem; color:var(--bordeaux); text-transform:uppercase; padding:0; outline:none;
+    border-radius:6px;
   }
-  td.cell input:focus{background:var(--orclair);}
-  td.cell .num{position:absolute; top:1px; left:2px; font-size:.55rem; font-weight:700; color:#7a5c1e; line-height:1;}
+  td.cell input:focus{background:var(--orclair); box-shadow:inset 0 0 0 2px var(--or);}
+  td.cell .num{position:absolute; top:2px; left:3px; font-size:.55rem; font-weight:700; color:#a8761e; line-height:1;}
+  td.cell.ok{background:#e3f0d8;}
   td.cell.ok input{color:var(--vertf);}
+
   .clues{text-align:left; margin-top:8px;}
   .clues h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.2rem; margin:14px 0 6px;}
   .clues ul{list-style:none;}
   .clues li{font-size:1rem; line-height:1.5; margin-bottom:7px; padding-left:4px;}
   .clues li b{color:var(--bordeaux);}
-  .clues li .len{color:var(--vertf); font-weight:600;}
+
   .btn{
     font-family:'Simonetta',serif; font-size:1.15rem; letter-spacing:.5px;
     color:var(--cremeclair); background:var(--bordeaux);
@@ -69,16 +78,20 @@
   .feedback{min-height:26px; margin-top:14px; font-size:1.1rem; font-weight:600;}
   .feedback.ko{color:var(--rougeclair);}
   .feedback.partial{color:#a8761e;}
+
   .indice{display:none; margin-top:18px; padding:18px 16px; background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf); border-radius:12px;}
   .indice.show{display:block; animation:pop .4s ease;}
   @keyframes pop{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
   .indice .crest{font-size:1.8rem; margin-bottom:6px;}
   .indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px;}
   .indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word;}
+
   .hint-help{font-size:.82rem; color:#8a6a2a; font-style:italic; margin-top:10px;}
+
   @media (max-width:420px){
-    table.grid td{width:30px; height:30px;}
-    td.cell input{font-size:.95rem;}
+    table.grid td{width:31px; height:31px;}
+    table.grid{border-spacing:2px;}
+    td.cell input{font-size:1rem;}
     h1{font-size:2rem;}
   }
 </style>
@@ -92,15 +105,15 @@
     <div class="clues">
       <h2>Horizontal</h2>
       <ul>
-        <li><b>2.</b> La meilleure arme dans une taverne. <span class="len">(5)</span></li>
-        <li><b>4.</b> Il est fort, qu'on l'assiège ou qu'on le serve. <span class="len">(7)</span></li>
-        <li><b>5.</b> Au Moyen Âge, on en aurait sûrement été un. <span class="len">(5)</span></li>
-        <li><b>6.</b> L'aventure pour trouver un bon verre. <span class="len">(5)</span></li>
+        <li><b>2.</b> La meilleure arme dans une taverne.</li>
+        <li><b>4.</b> Il est fort.</li>
+        <li><b>5.</b> Au Moyen Âge, on en aurait sûrement été un. <em>(masculin et péjoratif)</em></li>
+        <li><b>6.</b> L'aventure pour trouver un bon verre.</li>
       </ul>
       <h2>Vertical</h2>
       <ul>
-        <li><b>1.</b> On va peut-être en brûler une ce soir. <span class="len">(8)</span></li>
-        <li><b>3.</b> Ses œufs ? J'éviterais d'en faire une omelette. <span class="len">(6)</span></li>
+        <li><b>1.</b> On va peut-être en brûler une ce soir.</li>
+        <li><b>3.</b> Ses œufs ? J'éviterais d'en faire une omelette.</li>
       </ul>
     </div>
     <button class="btn" id="check">Vérifier la grille</button>
@@ -128,6 +141,14 @@ const white = new Set([
 ]);
 const numbers = {"0,2":"1","1,0":"2","1,7":"3","3,2":"4","5,0":"5","7,0":"6"};
 const SOLUTION_HASH = "34335dfe8eb26b8de72c420632a0672c6de8527425f2dc9c8bbe1d5ca3fa9cd9";
+
+const isW = (r,c)=> white.has(r+","+c);
+function vOnly(r,c){
+  const h = isW(r,c-1) || isW(r,c+1);
+  const v = isW(r-1,c) || isW(r+1,c);
+  return v && !h;
+}
+
 const gridEl = document.getElementById("grid");
 const inputs = {};
 for (let r = 0; r < ROWS; r++){
@@ -148,35 +169,46 @@ for (let r = 0; r < ROWS; r++){
       inp.setAttribute("autocomplete","off");
       inp.setAttribute("autocorrect","off");
       inp.setAttribute("spellcheck","false");
-      inp.dataset.key = key;
+      inp.dataset.r = r; inp.dataset.c = c;
       inp.addEventListener("input", function(){
         this.value = this.value.toUpperCase();
-        if (this.value.length === 1){ focusNext(r, c); }
+        if (this.value.length === 1){ moveNext(r, c); }
         const f = document.getElementById("feedback");
         f.textContent = ""; f.className = "feedback";
       });
       inp.addEventListener("keydown", function(e){
-        if (e.key === "Backspace" && this.value === ""){ focusPrev(r, c); }
+        if (e.key === "Backspace" && this.value === ""){ movePrev(r, c); }
       });
       td.appendChild(inp);
       inputs[key] = inp;
-    } else { td.className = "black"; }
+    } else { td.className = "void"; }
     tr.appendChild(td);
   }
   gridEl.appendChild(tr);
 }
+
+function moveNext(r, c){
+  if (vOnly(r,c)){
+    if (isW(r+1,c)){ inputs[(r+1)+","+c].focus(); return; }
+  } else {
+    if (isW(r,c+1)){ inputs[r+","+(c+1)].focus(); return; }
+    if (isW(r+1,c)){ inputs[(r+1)+","+c].focus(); return; }
+  }
+}
+function movePrev(r, c){
+  if (vOnly(r,c)){
+    if (isW(r-1,c)){ inputs[(r-1)+","+c].focus(); return; }
+  } else {
+    if (isW(r,c-1)){ inputs[r+","+(c-1)].focus(); return; }
+    if (isW(r-1,c)){ inputs[(r-1)+","+c].focus(); return; }
+  }
+}
+
 const ordered = [];
 for (let r = 0; r < ROWS; r++)
   for (let c = 0; c < COLS; c++)
     if (white.has(r+","+c)) ordered.push(r+","+c);
-function focusNext(r, c){
-  const idx = ordered.indexOf(r+","+c);
-  if (idx >= 0 && idx < ordered.length-1) inputs[ordered[idx+1]].focus();
-}
-function focusPrev(r, c){
-  const idx = ordered.indexOf(r+","+c);
-  if (idx > 0) inputs[ordered[idx-1]].focus();
-}
+
 function norm(s){
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z]/g,"");
 }
