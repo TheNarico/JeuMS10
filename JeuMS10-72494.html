@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Le Compte du Roi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:#1a1205;color:#f0e6c8;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 48px}
+h1{font-size:26px;color:#d4a843;letter-spacing:1px;text-align:center;margin-bottom:4px;text-shadow:0 2px 8px #0008}
+.sub{font-size:12px;color:#a89060;font-style:italic;text-align:center;margin-bottom:12px}
+.divider{width:100%;max-width:460px;height:2px;background:linear-gradient(to right,transparent,#d4a843,transparent);margin-bottom:20px}
+.card{background:#2c1f08;border:1px solid #5a3e1a;border-radius:12px;padding:18px;width:100%;max-width:460px;margin-bottom:14px;box-shadow:0 4px 20px #0006}
+.card-title{font-size:11px;color:#a89060;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;font-family:sans-serif}
+.target-box{text-align:center;padding:14px;background:#1a1205;border-radius:8px;border:1px solid #5a3e1a}
+.target-lbl{font-size:11px;color:#a89060;font-family:sans-serif;margin-bottom:2px}
+.target-num{font-size:54px;font-weight:bold;color:#d4a843;line-height:1;text-shadow:0 0 20px #d4a84344}
+.nums-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ntile{width:64px;height:64px;background:#3d2a0a;border:1.5px solid #8a6030;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:#f0e6c8;cursor:pointer;transition:.15s;position:relative;user-select:none}
+.ntile:active{transform:scale(.93)}
+.ntile.used{background:#1a1205;border-color:#3a2808;color:#4a3a1a;cursor:default}
+.ntile.used::after{content:"✓";position:absolute;top:2px;right:4px;font-size:10px;color:#5a7a3a}
+.expr-box{background:#111;border:1.5px solid #5a3e1a;border-radius:8px;padding:12px 14px;font-size:20px;min-height:52px;color:#f0e6c8;word-break:break-all;margin-bottom:12px;font-family:'Courier New',monospace;letter-spacing:1px}
+.expr-ph{color:#5a4a2a;font-style:italic;font-size:13px;font-family:Georgia}
+.ops-row{display:flex;gap:8px;justify-content:center;margin-bottom:8px}
+.op-btn{width:56px;height:52px;background:#1a3a1a;border:1.5px solid #3a6a3a;border-radius:8px;font-size:24px;color:#80c080;cursor:pointer;font-family:sans-serif;transition:.15s}
+.op-btn:active{background:#254525}
+.util-row{display:flex;gap:8px;justify-content:center}
+.ubtn{flex:1;max-width:130px;padding:10px;border-radius:8px;font-size:13px;cursor:pointer;font-family:sans-serif;border:1.5px solid;transition:.15s}
+.bclear{background:#3a0a0a;border-color:#7a2a2a;color:#e08080}
+.bparen{background:#2a2a0a;border-color:#6a6a2a;color:#c8c860}
+.btn-verify{width:100%;max-width:460px;padding:14px;background:linear-gradient(135deg,#7a5010,#d4a843,#7a5010);border:none;border-radius:8px;font-size:18px;color:#1a1205;font-weight:bold;cursor:pointer;font-family:Georgia;letter-spacing:1px;display:block;margin:0 auto 4px}
+.hint{font-size:11px;color:#6a5a3a;font-family:sans-serif;text-align:center;margin-bottom:14px}
+.result{display:none;padding:18px;border-radius:10px;text-align:center;margin-top:12px;border:2px solid;max-width:460px;width:100%}
+.rok{background:#0a2a0a;border-color:#4a8a4a}
+.rfail{background:#2a0a0a;border-color:#8a4a4a}
+.ricon{font-size:34px;margin-bottom:6px}
+.rtxt{font-size:17px;font-weight:bold;margin-bottom:4px}
+.rsub{font-size:12px;color:#a89060;font-family:sans-serif}
+.tabs{display:flex;width:100%;max-width:460px;margin-bottom:14px}
+.tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:12px;font-family:sans-serif;border:1px solid #5a3e1a;background:#1a1205;color:#a89060;transition:.15s}
+.tab:first-child{border-radius:8px 0 0 8px}
+.tab:last-child{border-radius:0 8px 8px 0}
+.tab.on{background:#2c1f08;color:#d4a843;border-color:#d4a843}
+.mode{display:none;width:100%;max-width:460px}
+.mode.on{display:block}
+.minput{width:100%;background:#111;border:1.5px solid #5a3e1a;border-radius:8px;padding:10px 14px;font-size:18px;color:#f0e6c8;font-family:'Courier New',monospace;margin-bottom:10px;outline:none}
+.minput:focus{border-color:#d4a843}
+.mhint{font-size:11px;color:#6a5a3a;font-family:sans-serif;margin-bottom:12px}
+footer{margin-top:28px;font-size:10px;color:#4a3a1a;font-family:sans-serif;text-align:center}
+</style>
+</head>
+<body>
+
+<h1>⚔ Le Compte du Roi ⚔</h1>
+<p class="sub">Soirée médiévale — Vérificateur officiel</p>
+<div class="divider"></div>
+
+<div class="card">
+  <div class="card-title">⚜ Nombre à atteindre</div>
+  <div class="target-box">
+    <div class="target-lbl">Le Roi exige</div>
+    <div class="target-num">599</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">⚔ Nombres disponibles</div>
+  <div class="nums-grid" id="grid"></div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="tab('builder')">🏗 Constructeur</div>
+  <div class="tab" onclick="tab('manual')">⌨ Saisie libre</div>
+</div>
+
+<div class="mode on" id="mode-builder">
+  <div class="card">
+    <div class="card-title">✏ Ton expression</div>
+    <div class="expr-box" id="exprBox"><span class="expr-ph">Appuie sur les nombres puis les opérateurs…</span></div>
+    <div class="ops-row">
+      <button class="op-btn" onclick="addOp('+')">+</button>
+      <button class="op-btn" onclick="addOp('−')">−</button>
+      <button class="op-btn" onclick="addOp('×')">×</button>
+      <button class="op-btn" onclick="addOp('÷')">÷</button>
+    </div>
+    <div class="util-row" style="margin-top:8px">
+      <button class="ubtn bparen" onclick="addP()">( )</button>
+      <button class="ubtn bclear" onclick="delLast()">⌫ Effacer</button>
+      <button class="ubtn bclear" onclick="clearAll()">✕ Tout</button>
+    </div>
+  </div>
+  <button class="btn-verify" onclick="verify('builder')">⚖ Vérifier le compte</button>
+  <p class="hint">Chaque nombre ne peut être utilisé qu'une seule fois.</p>
+  <div class="result" id="rb"></div>
+</div>
+
+<div class="mode" id="mode-manual">
+  <div class="card">
+    <div class="card-title">✏ Saisis l'expression</div>
+    <input class="minput" id="minput" placeholder="ex: (75 + 50) * 4 - 1"
+      onkeydown="if(event.key==='Enter')verify('manual')">
+    <p class="mhint">Utilise + − * /  et des parenthèses. Chaque nombre du tirage au plus une fois.</p>
+  </div>
+  <button class="btn-verify" onclick="verify('manual')">⚖ Vérifier le compte</button>
+  <div class="result" id="rm"></div>
+</div>
+
+<footer>Soirée médiévale • Le Compte du Roi • Ne pas distribuer les solutions</footer>
+
+<script>
+var TARGET=599;
+var NUMS=[75,50,7,8,10,4];
+var expr=[], usedIdx=[];
+
+// --- GRILLE ---
+NUMS.forEach(function(n,i){
+  var d=document.createElement('div');
+  d.className='ntile'; d.id='t'+i; d.textContent=n;
+  d.onclick=function(){addNum(n,i);};
+  document.getElementById('grid').appendChild(d);
+});
+
+// --- TABS ---
+function tab(m){
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',(i===0&&m==='builder')||(i===1&&m==='manual'));});
+  document.querySelectorAll('.mode').forEach(function(x){x.classList.remove('on');});
+  document.getElementById('mode-'+m).classList.add('on');
+}
+
+// --- CONSTRUCTEUR ---
+function addNum(n,i){
+  if(usedIdx.indexOf(i)!==-1)return;
+  usedIdx.push(i); expr.push({t:'n',v:n,i:i});
+  document.getElementById('t'+i).classList.add('used');
+  draw();
+}
+function addOp(op){if(!expr.length)return;expr.push({t:'o',v:op});draw();}
+function addP(){expr.push({t:'p',v:'('});draw();}
+function delLast(){
+  if(!expr.length)return;
+  var last=expr.pop();
+  if(last.t==='n'){
+    var p=usedIdx.indexOf(last.i);
+    if(p!==-1)usedIdx.splice(p,1);
+    document.getElementById('t'+last.i).classList.remove('used');
+  }
+  draw(); hide('rb');
+}
+function clearAll(){
+  expr=[];usedIdx=[];
+  NUMS.forEach(function(_,i){document.getElementById('t'+i).classList.remove('used');});
+  draw(); hide('rb');
+}
+function draw(){
+  var el=document.getElementById('exprBox');
+  if(!expr.length){el.innerHTML='<span class="expr-ph">Appuie sur les nombres puis les opérateurs…</span>';return;}
+  var open=0;
+  var s=expr.map(function(t){if(t.v==='(')open++;return t.v;}).join(' ');
+  for(var i=0;i<open;i++)s+=' )';
+  el.textContent=s;
+}
+function getBuilderExpr(){
+  var open=0;
+  var s=expr.map(function(t){
+    var v=t.v.replace('−','-').replace('×','*').replace('÷','/');
+    if(v==='(')open++;
+    return v;
+  }).join(' ');
+  for(var i=0;i<open;i++)s+=' )';
+  return s;
+}
+
+// --- PARSEUR ARITHMETIQUE MAISON (sans eval/Function) ---
+function tokenize(s){
+  var tokens=[],i=0;
+  s=s.replace(/\s/g,'').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/');
+  while(i<s.length){
+    if(s[i]>='0'&&s[i]<='9'){
+      var j=i;while(j<s.length&&s[j]>='0'&&s[j]<='9')j++;
+      tokens.push({t:'N',v:parseInt(s.slice(i,j),10)});i=j;
+    } else if('+-*/'.indexOf(s[i])!==-1){tokens.push({t:'O',v:s[i]});i++;}
+    else if(s[i]==='('){tokens.push({t:'L'});i++;}
+    else if(s[i]===')'){tokens.push({t:'R'});i++;}
+    else throw new Error('Caractère invalide : '+s[i]);
+  }
+  return tokens;
+}
+function mkParser(tokens){
+  var pos=0;
+  function peek(){return pos<tokens.length?tokens[pos]:null;}
+  function consume(t){var tok=tokens[pos];if(t&&tok.t!==t)throw new Error('Attendu '+t);pos++;return tok;}
+  function parseExpr(){return parseAdd();}
+  function parseAdd(){
+    var r=parseMul(),nums=r[1]; r=r[0];
+    while(peek()&&peek().t==='O'&&(peek().v==='+'||peek().v==='-')){
+      var op=consume('O').v;
+      var rr=parseMul(); var rv=rr[0]; nums=nums.concat(rr[1]);
+      r=op==='+'?r+rv:r-rv;
+    }
+    return [r,nums];
+  }
+  function parseMul(){
+    var r=parsePrimary(),nums=r[1]; r=r[0];
+    while(peek()&&peek().t==='O'&&(peek().v==='*'||peek().v==='/')){
+      var op=consume('O').v;
+      var rr=parsePrimary(); var rv=rr[0]; nums=nums.concat(rr[1]);
+      if(op==='*'){r=r*rv;}
+      else{if(rv===0)throw new Error('Division par zéro');if(r%rv!==0)throw new Error('Division non entière ('+r+'/'+rv+')');r=r/rv;}
+    }
+    return [r,nums];
+  }
+  function parsePrimary(){
+    var tok=peek();
+    if(!tok)throw new Error('Expression incomplète');
+    if(tok.t==='N'){consume('N');return [tok.v,[tok.v]];}
+    if(tok.t==='L'){
+      consume('L');
+      var r=parseExpr();
+      if(!peek()||peek().t!=='R')throw new Error('Parenthèse fermante manquante');
+      consume('R');
+      return r;
+    }
+    if(tok.t==='O'&&tok.v==='-'){consume('O');var r=parsePrimary();return [-r[0],r[1]];}
+    throw new Error('Token inattendu');
+  }
+  function run(){
+    var r=parseExpr();
+    if(pos!==tokens.length)throw new Error('Expression mal formée');
+    return r;
+  }
+  return {run:run};
+}
+function safeEval(exprStr, available){
+  var tokens=tokenize(exprStr);
+  var p=mkParser(tokens);
+  var res=p.run();
+  var val=res[0], usedNums=res[1];
+  // verifie nombres
+  var avail=available.slice();
+  for(var i=0;i<usedNums.length;i++){
+    var n=usedNums[i];
+    var idx=avail.indexOf(n);
+    if(idx===-1)throw new Error('Nombre '+n+' non disponible ou utilisé trop de fois');
+    avail.splice(idx,1);
+  }
+  return {val:val, used:usedNums};
+}
+
+// --- VERIFICATION ---
+function verify(mode){
+  var raw=mode==='builder'?getBuilderExpr():document.getElementById('minput').value;
+  var rid=mode==='builder'?'rb':'rm';
+  if(!raw.trim()){showR(rid,false,'Expression vide !','');return;}
+  try{
+    var r=safeEval(raw,NUMS);
+    if(r.val===TARGET){
+      showR(rid,true,'Le Roi est satisfait ! 👑',raw.trim()+' = '+r.val);
+    } else {
+      var diff=Math.abs(r.val-TARGET);
+      showR(rid,false,'Pas tout à fait… résultat : '+r.val,
+        'Il manque '+diff+' pour atteindre '+TARGET+'.');
+    }
+  } catch(e){
+    showR(rid,false,'Erreur',e.message);
+  }
+}
+function showR(id,ok,title,sub){
+  var el=document.getElementById(id);
+  el.className='result '+(ok?'rok':'rfail');
+  el.style.display='block';
+  el.innerHTML='<div class="ricon">'+(ok?'👑':'⚔')+'</div>'+
+    '<div class="rtxt">'+title+'</div>'+
+    '<div class="rsub">'+sub+'</div>';
+}
+function hide(id){document.getElementById(id).style.display='none';}
+</script>
+</body>
+</html>
