@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megasouye 10 — ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+    --bleu:#293468; --bordure:#c8a060;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Andada Pro',serif; color:var(--bordeaux);
+    min-height:100vh; padding:24px 16px;
+    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
+    background-attachment:fixed;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .card{
+    background:var(--cremeclair);
+    border:2px solid var(--bordure);
+    border-radius:14px;
+    box-shadow:0 8px 28px rgba(80,30,10,.45);
+    max-width:560px; width:100%; padding:34px 26px; text-align:center;
+    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
+  }
+  h1{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); line-height:1.05; margin-bottom:14px;}
+  .crest{font-size:2.2rem; margin-bottom:10px;}
+  p{font-size:1.12rem; line-height:1.65; margin-bottom:14px;}
+  .name{color:var(--vertf); font-weight:600;}
+  .beer{font-family:'Simonetta',serif; font-style:italic; font-size:1.25rem; color:var(--rougeclair); margin:18px 0;}
+  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:22px 0;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="crest">🍺 👑 🍺</div>
+    <h1>Bien joué Baptiston !</h1>
+    <p>Je savais que je te trouverais ici !!!</p>
+    <div class="hr"></div>
+    <p>Pour les petits malins qui tombent sur cette page :</p>
+    <p class="beer">vous avez gagné une bière au bar — ça tombe bien, il est gratuit.</p>
+    <p>Après, si vous voulez faire le jeu normalement, libre à vous ;)</p>
+  </div>
+</body>
+</html>
