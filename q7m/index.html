@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megasouye 10 — Jeu 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+    --bleu:#293468; --bordure:#c8a060;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Andada Pro',serif; color:var(--bordeaux);
+    min-height:100vh; padding:24px 16px;
+    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
+    background-attachment:fixed;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .card{
+    background:var(--cremeclair);
+    border:2px solid var(--bordure);
+    border-radius:14px;
+    box-shadow:0 8px 28px rgba(80,30,10,.45);
+    max-width:560px; width:100%; padding:30px 26px; text-align:center;
+    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
+  }
+  h1{font-family:'UnifrakturCook',cursive; font-size:2.4rem; color:var(--bordeaux); line-height:1.1; margin-bottom:6px;}
+  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.15rem; color:var(--rougeclair); margin-bottom:22px;}
+  .badge{
+    display:inline-block; font-family:'Simonetta',serif; font-size:.95rem;
+    color:var(--cremeclair); background:var(--vertf);
+    padding:5px 16px; border-radius:20px; margin-bottom:18px; letter-spacing:.5px;
+  }
+  p{font-size:1.05rem; line-height:1.55; margin-bottom:14px;}
+  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:20px 0;}
+  .note{font-size:.85rem; color:var(--vertf); font-style:italic;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">⚔ Megasouye 10 ⚔</span>
+    <h1>Jeu 1</h1>
+    <p class="sub">L'énigme se prépare en coulisses…</p>
+    <div class="hr"></div>
+    <p>🐉 Cette épreuve n'est pas encore prête, noble aventurier.</p>
+    <p>Reviens bientôt : le parchemin de cette quête sera bientôt déroulé.</p>
+    <div class="hr"></div>
+    <p class="note">Page temporaire — Code : q7m</p>
+  </div>
+</body>
+</html>
