@@ -8,59 +8,75 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
 :root{
-  --bordeaux:#962F24;--rougeclair:#c14a35;--or:#EDA02A;--orclair:#f0c25c;
-  --creme:#EED9A8;--cremeclair:#faeed2;--vertf:#4A7A3E;--vertc:#6DB35B;--bleu:#293468;--bordure:#c8a060;
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
 body{
   font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
   min-height:100vh;
   background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
   background-attachment:fixed;
-  display:flex;flex-direction:column;align-items:center;
+  display:flex; flex-direction:column; align-items:center;
   padding:24px 14px 56px;
 }
-.header{text-align:center;margin-bottom:6px}
-.ms-label{font-size:11px;letter-spacing:3px;color:#eed9a8;text-transform:uppercase;opacity:.85;margin-bottom:6px}
-h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow:2px 2px 0 #62180e,0 0 20px #00000055;line-height:1.1;margin-bottom:4px}
-.sub{font-family:'Simonetta',serif;font-style:italic;font-size:14px;color:#faeed2;opacity:.95}
-.divider{width:100%;max-width:480px;margin:14px auto;border:none;height:1px;background:linear-gradient(to right,transparent,#eed9a8,transparent);opacity:.6}
-
-.card{
-  width:100%;max-width:480px;margin-bottom:16px;background:var(--cremeclair);
-  border-radius:8px;box-shadow:0 4px 24px #62180e55,inset 0 0 40px #c8a86022;
-  padding:18px 20px;position:relative;border:1px solid var(--bordure);
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:18px 20px; position:relative;
 }
-.card::before{content:'';position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px);pointer-events:none}
-.card-title{font-family:'Simonetta',serif;font-style:italic;font-size:16px;color:var(--vertf);margin-bottom:10px;letter-spacing:.3px;position:relative}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-card-title{font-family:'Simonetta',serif; font-style:italic; font-size:16px; color:var(--vertf); margin-bottom:10px; letter-spacing:.3px; position:relative}
+.ms-btn{
+  width:100%; max-width:480px; display:block; margin:4px auto 6px; padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux); border-radius:10px;
+  font-family:'UnifrakturCook',cursive; font-size:22px; color:#3a1205; cursor:pointer;
+  letter-spacing:1px; box-shadow:0 4px 14px #00000033; transition:.12s;
+}
+.ms-btn:active{transform:scale(.98)}
+.ms-btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
+.ms-indice{
+  display:none; width:100%; max-width:480px; margin-top:14px; padding:18px 16px;
+  background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf);
+  border-radius:12px; text-align:center;
+}
+.ms-indice.show{display:block; animation:msPop .4s ease}
+@keyframes msPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.ms-indice .crest{font-size:1.8rem; margin-bottom:6px}
+.ms-indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px}
+.ms-indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word}
+.ms-footer{margin-top:30px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:32px} .ms-avatar{width:82px;height:82px} }
 
-.rules-list{font-size:13px;color:#3a1a0a;line-height:1.85;font-family:'Andada Pro',serif;text-align:left;position:relative}
-.rules-list b{color:var(--bordeaux)}
-
+/* ── SPÉCIFIQUE : Le Compte du Roi ── */
 .target-box{background:linear-gradient(135deg,var(--bordeaux),var(--rougeclair));border-radius:8px;padding:14px;text-align:center;box-shadow:inset 0 2px 8px #00000033;position:relative;overflow:visible}
 .target-lbl{font-size:11px;color:#faeed2;font-family:'Simonetta',serif;letter-spacing:2px;margin-bottom:4px;opacity:.85}
 .target-num-wrap{position:relative;display:inline-block}
 .target-num{font-family:'UnifrakturCook',cursive;font-size:58px;color:var(--or);line-height:1;text-shadow:0 0 20px #eda02a55,2px 2px 0 #62180e}
 
-.hand{
-  position:absolute;top:50%;font-size:40px;opacity:0;pointer-events:none;
-  filter:drop-shadow(0 2px 3px #00000055);
-  transition:opacity .2s;
-}
-.hand.left{right:100%;margin-right:6px;transform:translateY(-50%) scaleX(-1);}
-.hand.right{left:100%;margin-left:6px;transform:translateY(-50%);}
+.hand{position:absolute;top:50%;font-size:40px;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 3px #00000055);transition:opacity .2s}
+.hand.left{right:100%;margin-right:6px;transform:translateY(-50%) scaleX(-1)}
+.hand.right{left:100%;margin-left:6px;transform:translateY(-50%)}
 .hand.go{opacity:1}
 .hand.left.go{animation:bobA .42s ease-in-out infinite}
 .hand.right.go{animation:bobB .42s ease-in-out infinite}
-@keyframes bobA{
-  0%,100%{transform:translateY(-50%) scaleX(-1) translateY(-12px)}
-  50%{transform:translateY(-50%) scaleX(-1) translateY(12px)}
-}
-@keyframes bobB{
-  0%,100%{transform:translateY(-50%) translateY(12px)}
-  50%{transform:translateY(-50%) translateY(-12px)}
-}
+@keyframes bobA{0%,100%{transform:translateY(-50%) scaleX(-1) translateY(-12px)}50%{transform:translateY(-50%) scaleX(-1) translateY(12px)}}
+@keyframes bobB{0%,100%{transform:translateY(-50%) translateY(12px)}50%{transform:translateY(-50%) translateY(-12px)}}
+
+.rules-list{font-size:13px;color:#3a1a0a;line-height:1.85;font-family:'Andada Pro',serif;text-align:left;position:relative}
+.rules-list b{color:var(--bordeaux)}
 
 .nums-grid{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;position:relative}
 .ntile{
@@ -110,16 +126,6 @@ h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow
 .ubtn{flex:1;max-width:150px;padding:11px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'Andada Pro',serif;font-weight:600;border:1.5px solid var(--creme);box-shadow:0 2px 4px #00000022;transition:.12s;background:var(--bordeaux);color:#faeed2}
 .ubtn:active{transform:scale(.94)}
 
-.btn-verify{
-  width:100%;max-width:480px;display:block;margin:4px auto 6px;padding:15px;
-  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
-  border:2px solid var(--bordeaux);border-radius:10px;
-  font-family:'UnifrakturCook',cursive;font-size:22px;color:#3a1205;cursor:pointer;letter-spacing:1px;
-  box-shadow:0 4px 14px #00000033;transition:.12s;
-}
-.btn-verify:active{transform:scale(.98)}
-.btn-verify:disabled{opacity:.45;cursor:not-allowed;transform:none}
-
 .result{display:none;width:100%;max-width:480px;padding:16px;border-radius:10px;text-align:center;margin-top:8px;border:2px solid;box-shadow:0 4px 12px #00000033;background:var(--cremeclair)}
 .rok{border-color:var(--vertf)}
 .rfail{border-color:var(--bordeaux)}
@@ -127,28 +133,21 @@ h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow
 .rtxt{font-family:'Simonetta',serif;font-size:18px;font-weight:900;margin-bottom:4px;color:#3a1a0a}
 .rsub{font-size:13px;color:#7a5a3a;font-family:'Andada Pro',serif}
 
-.indice{display:none;width:100%;max-width:480px;margin-top:14px;padding:18px 16px;background:linear-gradient(180deg,#fff6e0,#f6e6bf);border:2px solid var(--vertf);border-radius:12px;text-align:center}
-.indice.show{display:block;animation:pop .4s ease}
-@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-.indice .crest{font-size:1.8rem;margin-bottom:6px}
-.indice .lbl{font-family:'Simonetta',serif;font-style:italic;color:var(--vertf);font-size:1rem;margin-bottom:6px}
-.indice .val{font-family:'UnifrakturCook',cursive;font-size:1.8rem;color:var(--bordeaux);letter-spacing:1px}
-
 .hint{font-size:11px;color:#faeed2;text-align:center;margin-bottom:12px;font-family:'Andada Pro',serif;opacity:.85}
-footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',serif;text-align:center;opacity:.7}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="ms-label">Megasouye 10 — 2026</div>
-  <h1>Le Compte du Roi</h1>
-  <p class="sub">Trouve le nombre que le Roi exige</p>
+<div class="ms-header">
+  <div class="ms-stamp">Megasouye 10 · 2026</div>
+  <img class="ms-avatar" id="msAvatar" alt="" onerror="this.style.display='none'">
+  <h1 class="ms-title">Le Compte du Roi</h1>
+  <p class="ms-sub">Trouve le nombre que le Roi exige</p>
 </div>
-<hr class="divider">
+<hr class="ms-divider">
 
-<div class="card">
-  <div class="card-title">Règles du jeu</div>
+<div class="ms-card">
+  <div class="ms-card-title">Règles du jeu</div>
   <div class="rules-list">
     Combine les <b>6 nombres</b> avec <b>+ − × ÷</b> pour atteindre la cible.<br>
     Chaque nombre s'utilise <b>au plus une fois</b> — pas besoin de tous les prendre.<br>
@@ -158,8 +157,8 @@ footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',ser
   </div>
 </div>
 
-<div class="card">
-  <div class="card-title">Nombre à atteindre</div>
+<div class="ms-card">
+  <div class="ms-card-title">Nombre à atteindre</div>
   <div class="target-box">
     <div class="target-lbl">LE ROI EXIGE</div>
     <div class="target-num-wrap">
@@ -170,13 +169,13 @@ footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',ser
   </div>
 </div>
 
-<div class="card">
-  <div class="card-title">Nombres disponibles — appuie pour les ajouter</div>
+<div class="ms-card">
+  <div class="ms-card-title">Nombres disponibles — appuie pour les ajouter</div>
   <div class="nums-grid" id="grid"></div>
 </div>
 
-<div class="card">
-  <div class="card-title">Ton expression</div>
+<div class="ms-card">
+  <div class="ms-card-title">Ton expression</div>
   <div class="expr-box" id="exprBox">
     <span class="expr-ph">Appuie sur un nombre pour commencer…</span>
   </div>
@@ -198,19 +197,26 @@ footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',ser
   </div>
 </div>
 
-<button class="btn-verify" id="verifyBtn" onclick="verify()">⚖ Vérifier le compte</button>
+<button class="ms-btn" id="verifyBtn" onclick="verify()">⚖ Vérifier le compte</button>
 <p class="hint">Le bouton s'active quand ton expression est complète.</p>
 <div class="result" id="result"></div>
 
-<div class="indice" id="indice">
+<div class="ms-indice" id="indice">
   <div class="crest">🗝️</div>
   <div class="lbl">Ton indice pour la validation :</div>
   <div class="val">Indice 2</div>
 </div>
 
-<footer>Megasouye 10 · Le Compte du Roi</footer>
+<div class="ms-footer">Megasouye 10 · Le Compte du Roi</div>
 
 <script>
+(function(){
+  var GAME_NUM = 2;
+  var av=document.getElementById('msAvatar');
+  if(GAME_NUM===null){ if(av)av.style.display='none'; }
+  else if(av){ av.src='../images/B'+GAME_NUM+'.png'; av.alt='Personnage du jeu'; }
+})();
+
 var TARGET=446;
 var NUMS=[67,3,8,9,50,10];
 var expr=[];
@@ -228,34 +234,14 @@ function sixSeven(){
   var L=document.getElementById('handL'), R=document.getElementById('handR');
   L.classList.add('go'); R.classList.add('go');
   if(handTimer)clearTimeout(handTimer);
-  handTimer=setTimeout(function(){
-    L.classList.remove('go'); R.classList.remove('go');
-  },2600);
+  handTimer=setTimeout(function(){ L.classList.remove('go'); R.classList.remove('go'); },2600);
 }
 
 function lastTok(){return expr.length?expr[expr.length-1]:null;}
-function openCount(){
-  var c=0; expr.forEach(function(t){if(t.t==='p'&&t.v==='(')c++;if(t.t==='p'&&t.v===')')c--;});
-  return c;
-}
-function canAddNumberOrOpen(){
-  var l=lastTok();
-  if(!l)return true;
-  if(l.t==='n')return false;
-  if(l.t==='p'&&l.v===')')return false;
-  return true;
-}
-function canAddOp(){
-  var l=lastTok();
-  if(!l)return false;
-  return (l.t==='n')||(l.t==='p'&&l.v===')');
-}
-function canAddClose(){
-  var l=lastTok();
-  if(!l)return false;
-  if(openCount()<=0)return false;
-  return (l.t==='n')||(l.t==='p'&&l.v===')');
-}
+function openCount(){var c=0;expr.forEach(function(t){if(t.t==='p'&&t.v==='(')c++;if(t.t==='p'&&t.v===')')c--;});return c;}
+function canAddNumberOrOpen(){var l=lastTok();if(!l)return true;if(l.t==='n')return false;if(l.t==='p'&&l.v===')')return false;return true;}
+function canAddOp(){var l=lastTok();if(!l)return false;return (l.t==='n')||(l.t==='p'&&l.v===')');}
+function canAddClose(){var l=lastTok();if(!l)return false;if(openCount()<=0)return false;return (l.t==='n')||(l.t==='p'&&l.v===')');}
 
 function addNum(n,i){
   if(usedIdx.indexOf(i)!==-1)return;
@@ -271,11 +257,7 @@ function addClose(){if(!canAddClose())return;expr.push({t:'p',v:')'});draw();}
 function delLast(){
   if(!expr.length)return;
   var last=expr.pop();
-  if(last.t==='n'){
-    var p=usedIdx.indexOf(last.i);
-    if(p!==-1)usedIdx.splice(p,1);
-    document.getElementById('t'+last.i).classList.remove('used');
-  }
+  if(last.t==='n'){var p=usedIdx.indexOf(last.i);if(p!==-1)usedIdx.splice(p,1);document.getElementById('t'+last.i).classList.remove('used');}
   draw();hideResult();
 }
 function clearAll(){
@@ -286,22 +268,19 @@ function clearAll(){
 
 function draw(){
   var el=document.getElementById('exprBox');
-  if(!expr.length){
-    el.innerHTML='<span class="expr-ph">Appuie sur un nombre pour commencer…</span>';
-  }else{
+  if(!expr.length){el.innerHTML='<span class="expr-ph">Appuie sur un nombre pour commencer…</span>';}
+  else{
     el.innerHTML='';
     expr.forEach(function(t){
       var s=document.createElement('span');
       s.className='tok '+(t.t==='n'?'tok-n':(t.t==='o'?'tok-o':'tok-p'));
-      s.textContent=t.v;
-      el.appendChild(s);
+      s.textContent=t.v;el.appendChild(s);
     });
     fitExpr();
   }
   var oc=openCount();
   var pi=document.getElementById('parenInfo');
-  if(oc>0){pi.innerHTML='Parenthèses ouvertes à fermer : <b>'+oc+'</b>';}
-  else{pi.innerHTML='';}
+  pi.innerHTML = oc>0 ? 'Parenthèses ouvertes à fermer : <b>'+oc+'</b>' : '';
   document.getElementById('btn-open').disabled=!canAddNumberOrOpen();
   document.getElementById('btn-close').disabled=!canAddClose();
   var opDis=!canAddOp();
@@ -313,31 +292,21 @@ function draw(){
 
 function fitExpr(){
   var el=document.getElementById('exprBox');
-  var size=24;
-  el.style.fontSize=size+'px';
+  var size=24; el.style.fontSize=size+'px';
   var guard=0;
-  while(el.scrollWidth>el.clientWidth && size>11 && guard<40){
-    size-=1;
-    el.style.fontSize=size+'px';
-    guard++;
-  }
+  while(el.scrollWidth>el.clientWidth && size>11 && guard<40){size-=1;el.style.fontSize=size+'px';guard++;}
 }
 
 function exprToString(){
-  return expr.map(function(t){
-    if(t.t==='o')return t.v.replace('−','-').replace('×','*').replace('÷','/');
-    return t.v;
-  }).join(' ');
+  return expr.map(function(t){ if(t.t==='o')return t.v.replace('−','-').replace('×','*').replace('÷','/'); return t.v; }).join(' ');
 }
 
 function tokenize(s){
   var tokens=[],i=0;
   s=s.replace(/\s/g,'').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/');
   while(i<s.length){
-    if(s[i]>='0'&&s[i]<='9'){
-      var j=i;while(j<s.length&&s[j]>='0'&&s[j]<='9')j++;
-      tokens.push({t:'N',v:parseInt(s.slice(i,j),10)});i=j;
-    }else if('+-*/'.indexOf(s[i])!==-1){tokens.push({t:'O',v:s[i]});i++;}
+    if(s[i]>='0'&&s[i]<='9'){var j=i;while(j<s.length&&s[j]>='0'&&s[j]<='9')j++;tokens.push({t:'N',v:parseInt(s.slice(i,j),10)});i=j;}
+    else if('+-*/'.indexOf(s[i])!==-1){tokens.push({t:'O',v:s[i]});i++;}
     else if(s[i]==='('){tokens.push({t:'L'});i++;}
     else if(s[i]===')'){tokens.push({t:'R'});i++;}
     else throw new Error('Caractère invalide');
@@ -349,38 +318,12 @@ function mkParser(tokens){
   function peek(){return pos<tokens.length?tokens[pos]:null;}
   function consume(t){var tok=tokens[pos];if(t&&(!tok||tok.t!==t))throw new Error('Syntaxe');pos++;return tok;}
   function parseExpr(){return parseAdd();}
-  function parseAdd(){
-    var r=parseMul(),nums=r[1];r=r[0];
-    while(peek()&&peek().t==='O'&&(peek().v==='+'||peek().v==='-')){
-      var op=consume('O').v;var rr=parseMul();nums=nums.concat(rr[1]);
-      r=op==='+'?r+rr[0]:r-rr[0];
-    }
-    return[r,nums];
-  }
-  function parseMul(){
-    var r=parsePrimary(),nums=r[1];r=r[0];
-    while(peek()&&peek().t==='O'&&(peek().v==='*'||peek().v==='/')){
-      var op=consume('O').v;var rr=parsePrimary();nums=nums.concat(rr[1]);
-      if(op==='*'){r=r*rr[0];}
-      else{if(rr[0]===0)throw new Error('Division par zéro');if(r%rr[0]!==0)throw new Error('Division non entière');r=r/rr[0];}
-    }
-    return[r,nums];
-  }
-  function parsePrimary(){
-    var tok=peek();
-    if(!tok)throw new Error('Expression incomplète');
-    if(tok.t==='N'){consume('N');return[tok.v,[tok.v]];}
-    if(tok.t==='L'){consume('L');var r=parseExpr();if(!peek()||peek().t!=='R')throw new Error('Parenthèse manquante');consume('R');return r;}
-    if(tok.t==='O'&&tok.v==='-'){consume('O');var r2=parsePrimary();return[-r2[0],r2[1]];}
-    throw new Error('Token inattendu');
-  }
+  function parseAdd(){var r=parseMul(),nums=r[1];r=r[0];while(peek()&&peek().t==='O'&&(peek().v==='+'||peek().v==='-')){var op=consume('O').v;var rr=parseMul();nums=nums.concat(rr[1]);r=op==='+'?r+rr[0]:r-rr[0];}return[r,nums];}
+  function parseMul(){var r=parsePrimary(),nums=r[1];r=r[0];while(peek()&&peek().t==='O'&&(peek().v==='*'||peek().v==='/')){var op=consume('O').v;var rr=parsePrimary();nums=nums.concat(rr[1]);if(op==='*'){r=r*rr[0];}else{if(rr[0]===0)throw new Error('Division par zéro');if(r%rr[0]!==0)throw new Error('Division non entière');r=r/rr[0];}}return[r,nums];}
+  function parsePrimary(){var tok=peek();if(!tok)throw new Error('Expression incomplète');if(tok.t==='N'){consume('N');return[tok.v,[tok.v]];}if(tok.t==='L'){consume('L');var r=parseExpr();if(!peek()||peek().t!=='R')throw new Error('Parenthèse manquante');consume('R');return r;}if(tok.t==='O'&&tok.v==='-'){consume('O');var r2=parsePrimary();return[-r2[0],r2[1]];}throw new Error('Token inattendu');}
   return{run:function(){var r=parseExpr();if(pos!==tokens.length)throw new Error('Expression mal formée');return r;}};
 }
-function evalExpr(str){
-  var tokens=tokenize(str);
-  var res=mkParser(tokens).run();
-  return{val:res[0],used:res[1]};
-}
+function evalExpr(str){var tokens=tokenize(str);var res=mkParser(tokens).run();return{val:res[0],used:res[1]};}
 
 function verify(){
   var raw=exprToString();
@@ -389,7 +332,7 @@ function verify(){
     var r=evalExpr(raw);
     if(r.val===TARGET){
       showR(true,'Le Roi est satisfait !', raw.replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−')+' = '+r.val);
-      var ind=document.getElementById('indice');ind.classList.add('show');
+      document.getElementById('indice').classList.add('show');
     }else{
       var diff=Math.abs(r.val-TARGET);
       showR(false,'Pas tout à fait… ton total : '+r.val, 'Il s\u2019en faut de '+diff+' pour atteindre '+TARGET+'.');
