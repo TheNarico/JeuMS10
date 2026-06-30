@@ -3,198 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — La Roulette du Nain</title>
+<title>La Roulette du Nain — Megasouye 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bordeaux:#962F24;
-  --rougeclair:#c14a35;
-  --or:#EDA02A;
-  --orclair:#f0c25c;
-  --creme:#EED9A8;
-  --cremeclair:#faeed2;
-  --vertf:#4A7A3E;
-  --vertc:#6DB35B;
-  --bleu:#293468;
-  --bordure:#c8a060;
-  --rouletteRed:#a4221a;
-  --rouletteBlack:#1d1d1d;
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
+:root{
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
 }
-* { box-sizing: border-box; }
-body {
-  margin:0;
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  background: linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
-  background-attachment: fixed;
-  font-family:'Andada Pro', serif;
-  padding: 24px 14px 56px;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex; flex-direction:column; align-items:center;
+  padding:24px 14px 56px;
 }
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:18px 20px; position:relative;
+}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-card-title{font-family:'Simonetta',serif; font-style:italic; font-size:16px; color:var(--vertf); margin-bottom:10px; letter-spacing:.3px; position:relative}
+.ms-btn{
+  width:100%; max-width:480px; display:block; margin:4px auto 6px; padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux); border-radius:10px;
+  font-family:'UnifrakturCook',cursive; font-size:22px; color:#3a1205; cursor:pointer;
+  letter-spacing:1px; box-shadow:0 4px 14px #00000033; transition:.12s;
+}
+.ms-btn:active{transform:scale(.98)}
+.ms-btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
+.ms-indice{
+  display:none; width:100%; max-width:480px; margin-top:14px; padding:18px 16px;
+  background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf);
+  border-radius:12px; text-align:center;
+}
+.ms-indice.show{display:block; animation:msPop .4s ease}
+@keyframes msPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.ms-indice .crest{font-size:1.8rem; margin-bottom:6px}
+.ms-indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px}
+.ms-indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word}
+.ms-footer{margin-top:30px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:32px} .ms-avatar{width:82px;height:82px} }
 
-/* ===== HEADER COMMUN ===== */
-.ms-header { display:flex; flex-direction:column; align-items:center; text-align:center; max-width:480px; }
-.ms-stamp {
-  font-size:0.7rem; letter-spacing:3px; text-transform:uppercase;
-  color: var(--cremeclair); opacity:0.85; margin-bottom:8px; font-weight:600;
-}
-.ms-avatar {
-  width:88px; height:88px; object-fit:contain;
-  border-radius:50%; border:3px solid var(--bordure);
-  background: var(--cremeclair);
-  box-shadow:0 4px 10px rgba(0,0,0,0.35);
-  margin-bottom:10px;
-}
-.ms-title {
-  font-family:'UnifrakturCook', cursive;
-  font-size:2.3rem; color: var(--creme);
-  text-shadow: 2px 2px 0 var(--bordeaux);
-  margin:4px 0;
-}
-.ms-sub {
-  font-family:'Simonetta', serif; font-style:italic;
-  color: var(--cremeclair); font-size:1.05rem; margin:0 0 12px;
-}
-.ms-divider {
-  width:80%; max-width:420px; border:none; height:2px;
-  background:linear-gradient(90deg, transparent, var(--or), transparent);
-  margin:10px 0 22px;
-}
+/* ── SPÉCIFIQUE : Roulette ── */
+.lore-text{font-size:1rem; line-height:1.55; color:#3a1a0a; font-style:italic; position:relative}
 
-/* ===== CARTE COMMUNE ===== */
-.ms-card {
-  position:relative;
-  background: var(--cremeclair);
-  border:2px solid var(--bordure);
-  border-radius:10px;
-  padding:20px 18px;
-  max-width:460px; width:100%;
-  margin-bottom:18px;
-  box-shadow:0 6px 16px rgba(0,0,0,0.25);
-}
-.ms-card::before {
-  content:""; position:absolute; inset:0; border-radius:10px;
-  background-image: repeating-linear-gradient(0deg, rgba(150,47,36,0.03) 0px, rgba(150,47,36,0.03) 1px, transparent 1px, transparent 24px);
-  pointer-events:none;
-}
-.ms-card-title {
-  font-family:'Simonetta', serif; font-style:italic; font-weight:900;
-  color: var(--vertf); font-size:1.2rem; margin:0 0 10px;
-}
-.lore-text { font-style:italic; color:#4a3a2a; line-height:1.5; margin:0; position:relative; z-index:1; }
+.balance-box{text-align:center; margin-bottom:6px; position:relative}
+.balance-label{font-family:'Andada Pro',serif; font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase; color:#8a6a40}
+.balance-value{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); transition:color .3s}
+.balance-value.objectif{color:var(--vertf)}
+.balance-target{font-size:.85rem; color:#8a6a40; margin-bottom:14px}
 
-/* ===== JEU ===== */
-.balance-box {
-  text-align:center; margin-bottom:6px; position:relative; z-index:1;
-}
-.balance-label { font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; color:#7a6240; }
-.balance-value {
-  font-family:'UnifrakturCook', cursive; font-size:2.6rem; color: var(--bordeaux);
-  transition: color 0.3s;
-}
-.balance-value.objectif { color: var(--vertf); }
-.balance-target { font-size:0.85rem; color:#7a6240; margin-bottom:14px; }
-
-.bet-tabs { display:flex; gap:8px; margin-bottom:14px; position:relative; z-index:1; }
-.bet-tab {
-  flex:1; padding:10px 4px; border-radius:8px; border:2px solid var(--bordure);
-  background: var(--creme); font-family:'Andada Pro'; font-weight:700; font-size:0.85rem;
-  color:#5a4530; cursor:pointer; text-align:center; transition: all 0.15s;
-}
-.bet-tab.active { background: var(--or); border-color: var(--bordeaux); color: var(--bordeaux); }
-
-.bet-sub { display:none; margin-bottom:14px; position:relative; z-index:1; }
-.bet-sub.active { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
-.bet-choice {
-  padding:10px 14px; border-radius:8px; border:2px solid var(--bordure);
-  font-weight:700; cursor:pointer; font-family:'Andada Pro'; font-size:0.9rem; flex:1; min-width:80px; text-align:center;
-}
-.bet-choice.rouge { background: var(--rouletteRed); color:#fff; }
-.bet-choice.noir { background: var(--rouletteBlack); color:#fff; }
-.bet-choice.selected { outline:3px solid var(--or); outline-offset:1px; }
-.bet-choice.dozen, .bet-choice.number-select { background: var(--creme); color:#5a4530; }
-.bet-choice.dozen.selected, .bet-choice.number-select.selected { background: var(--orclair); }
-
-.number-select-wrap { display:flex; align-items:center; gap:8px; justify-content:center; width:100%; }
-.number-select-wrap select {
-  font-size:1.1rem; padding:8px 12px; border-radius:8px; border:2px solid var(--bordure);
-  font-family:'Andada Pro'; font-weight:700; background:var(--creme);
-}
-
-.mise-section { margin-bottom:10px; position:relative; z-index:1; }
-.mise-label { font-size:0.85rem; color:#5a4530; margin-bottom:6px; display:block; font-weight:600; }
-.mise-input-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-.mise-input-row input[type=number] {
-  flex:1; font-size:1.1rem; padding:8px 10px; border-radius:8px; border:2px solid var(--bordure);
-  font-family:'Andada Pro'; font-weight:700; text-align:center;
-}
-.mise-chips { display:flex; gap:6px; flex-wrap:wrap; }
-.chip {
-  padding:6px 12px; border-radius:20px; border:2px solid var(--bordure);
-  background: var(--creme); font-size:0.85rem; font-weight:700; cursor:pointer; color:#5a4530;
-}
-.chip:active { background: var(--orclair); }
-
-.gain-potentiel { text-align:center; font-size:0.95rem; color: var(--vertf); font-weight:700; margin:10px 0; position:relative; z-index:1; }
-.warning-mise { text-align:center; font-size:0.8rem; color: var(--bordeaux); font-weight:700; min-height:18px; margin-bottom:6px; position:relative; z-index:1; }
-
-/* ===== BOUTON COMMUN ===== */
-.ms-btn {
-  display:block; width:100%; padding:14px; border:none; border-radius:10px;
-  background: linear-gradient(160deg, var(--orclair), var(--or));
-  color: var(--bordeaux); font-family:'Andada Pro'; font-weight:700; font-size:1.05rem;
-  box-shadow:0 4px 10px rgba(0,0,0,0.25); cursor:pointer; transition: transform 0.1s;
-  position:relative; z-index:1;
-}
-.ms-btn:active { transform: scale(0.97); }
-.ms-btn:disabled { opacity:0.45; cursor:not-allowed; }
-
-/* ===== ROUE / RESULTAT ===== */
-.roulette-result {
-  display:flex; justify-content:center; align-items:center; margin:14px 0;
-  position:relative; z-index:1;
-}
-.result-circle {
-  width:96px; height:96px; border-radius:50%;
+.roulette-result{display:flex; justify-content:center; align-items:center; margin:6px 0 14px; position:relative}
+.result-circle{
+  width:92px; height:92px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
-  font-family:'UnifrakturCook', cursive; font-size:2.2rem; color:#fff;
-  border:4px solid var(--or); box-shadow:0 4px 12px rgba(0,0,0,0.3);
-  background: var(--rouletteBlack);
-  transition: background 0.05s;
+  font-family:'UnifrakturCook',cursive; font-size:2.1rem; color:#fff;
+  border:3px solid var(--or); box-shadow:0 4px 12px rgba(0,0,0,.3);
+  background:#1d1d1d;
 }
-.result-message {
-  text-align:center; font-weight:700; min-height:24px; margin-bottom:6px;
-  position:relative; z-index:1; font-size:1rem;
+.result-message{text-align:center; font-weight:700; min-height:24px; margin-bottom:8px; position:relative; font-family:'Andada Pro',serif}
+.result-message.win{color:var(--vertf)}
+.result-message.lose{color:var(--rougeclair)}
+
+.bet-tabs{display:flex; gap:8px; margin-bottom:14px; position:relative}
+.bet-tab{
+  flex:1; padding:10px 4px; border-radius:8px; border:2px solid var(--bordure);
+  background:var(--creme); font-family:'Andada Pro',serif; font-weight:700; font-size:.82rem;
+  color:#5a4530; cursor:pointer; text-align:center; line-height:1.3;
 }
-.result-message.win { color: var(--vertf); }
-.result-message.lose { color: var(--bordeaux); }
+.bet-tab small{font-weight:600; opacity:.8}
+.bet-tab.active{background:var(--or); border-color:var(--bordeaux); color:var(--bordeaux)}
 
-/* ===== INDICE ===== */
-.ms-indice {
-  display:none; text-align:center; padding:16px; margin-top:8px;
-  background: var(--creme); border:2px dashed var(--bordeaux); border-radius:10px;
-  position:relative; z-index:1;
+.bet-sub{display:none; margin-bottom:14px; position:relative; gap:8px; flex-wrap:wrap; justify-content:center}
+.bet-sub.active{display:flex}
+.bet-choice{
+  padding:10px 14px; border-radius:8px; border:2px solid var(--bordure);
+  font-weight:700; cursor:pointer; font-family:'Andada Pro',serif; font-size:.9rem; flex:1; min-width:80px; text-align:center;
 }
-.ms-indice.show { display:block; animation: fadeIn 0.6s ease; }
-.ms-indice .label { font-weight:700; color: var(--bordeaux); margin-bottom:6px; }
-.ms-indice .valeur { font-family:'Simonetta'; font-style:italic; font-size:1.1rem; color:#3a2a1a; }
-@keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+.bet-choice.rouge{background:var(--bordeaux); color:#fff}
+.bet-choice.noir{background:#1d1d1d; color:#fff}
+.bet-choice.selected{outline:3px solid var(--or); outline-offset:1px}
+.bet-choice.dozen,.bet-choice.number-select{background:var(--creme); color:#5a4530}
+.bet-choice.dozen.selected{background:var(--orclair)}
 
-.ms-footer { text-align:center; color: var(--cremeclair); font-style:italic; font-size:0.85rem; opacity:0.85; margin-top:10px; }
+.number-select-wrap{display:flex; align-items:center; gap:8px; justify-content:center; width:100%}
+.number-select-wrap select{
+  font-size:1.05rem; padding:8px 12px; border-radius:8px; border:2px solid var(--bordure);
+  font-family:'Andada Pro',serif; font-weight:700; background:var(--creme); color:#5a4530;
+}
 
-/* ===== MODAL BANQUEROUTE ===== */
-.bankruptcy-overlay {
-  display:none; position:fixed; inset:0; background:rgba(20,10,5,0.75);
+.mise-section{margin-bottom:10px; position:relative}
+.mise-label{font-size:.85rem; color:#5a4530; margin-bottom:6px; display:block; font-weight:600}
+.mise-input-row{display:flex; gap:8px; align-items:center; margin-bottom:8px}
+.mise-input-row input[type=number]{
+  flex:1; font-size:1.1rem; padding:8px 10px; border-radius:8px; border:2px solid var(--bordure);
+  font-family:'Andada Pro',serif; font-weight:700; text-align:center; color:var(--bordeaux);
+}
+.mise-chips{display:flex; gap:6px; flex-wrap:wrap}
+.chip{
+  padding:6px 12px; border-radius:20px; border:2px solid var(--bordure);
+  background:var(--creme); font-size:.85rem; font-weight:700; cursor:pointer; color:#5a4530;
+}
+.chip:active{background:var(--orclair)}
+
+.gain-potentiel{text-align:center; font-size:.95rem; color:var(--vertf); font-weight:700; margin:10px 0; position:relative}
+.warning-mise{text-align:center; font-size:.8rem; color:var(--rougeclair); font-weight:700; min-height:18px; margin-bottom:6px; position:relative}
+
+.bankruptcy-overlay{
+  display:none; position:fixed; inset:0; background:rgba(20,10,5,.75);
   align-items:center; justify-content:center; z-index:50; padding:20px;
 }
-.bankruptcy-overlay.show { display:flex; }
-.bankruptcy-box {
-  background: var(--cremeclair); border:3px solid var(--bordeaux); border-radius:12px;
-  padding:28px 22px; text-align:center; max-width:340px;
+.bankruptcy-overlay.show{display:flex}
+.bankruptcy-box{
+  background:var(--cremeclair); border:2px solid var(--bordeaux); border-radius:10px;
+  padding:26px 22px; text-align:center; max-width:340px;
 }
-.bankruptcy-box h2 { font-family:'UnifrakturCook'; color: var(--bordeaux); margin:0 0 12px; font-size:1.8rem; }
-.bankruptcy-box p { color:#4a3a2a; margin:0 0 18px; font-family:'Andada Pro'; }
+.bankruptcy-box h2{font-family:'UnifrakturCook',cursive; color:var(--bordeaux); margin-bottom:10px; font-size:1.9rem}
+.bankruptcy-box p{color:#4a3a2a; margin-bottom:16px; font-family:'Andada Pro',serif}
 </style>
 </head>
 <body>
@@ -208,7 +149,7 @@ body {
 <hr class="ms-divider">
 
 <div class="ms-card">
-  <p class="ms-card-title">Une rencontre inattendue</p>
+  <div class="ms-card-title">Une rencontre inattendue</div>
   <p class="lore-text">En chemin, vous croisez un nain qui propose de vous aider... en échange d'or. Hélas, vos poches sont presque vides. Heureusement, son ami tavernier vous propose une partie de roulette pour réunir la somme nécessaire.</p>
 </div>
 
@@ -263,18 +204,18 @@ body {
   <div class="warning-mise" id="warningMise"></div>
   <div class="gain-potentiel" id="gainPotentiel"></div>
 
-  <button class="ms-btn" id="spinBtn">🎲 Lancer la roulette</button>
+  <button class="ms-btn" id="spinBtn">Lancer la roulette</button>
 </div>
 
-<div class="ms-card">
-  <button class="ms-btn" id="nainBtn" disabled>Payer 1000 PO au nain</button>
-  <div class="ms-indice" id="msIndice">
-    <div class="label">🗝️ Indice 1</div>
-    <div class="valeur" id="indiceValeur">A définir</div>
-  </div>
+<button class="ms-btn" id="nainBtn" disabled>Payer 1000 PO au nain</button>
+
+<div class="ms-indice" id="msIndice">
+  <div class="crest">🗝️</div>
+  <div class="lbl">Ton indice pour la validation :</div>
+  <div class="val">A definir</div>
 </div>
 
-<div class="ms-footer">Megasouye 10 — Que la fortune vous sourie !</div>
+<div class="ms-footer">Megasouye 10 · La Roulette du Nain</div>
 
 <div class="bankruptcy-overlay" id="bankruptcyOverlay">
   <div class="bankruptcy-box">
@@ -399,7 +340,7 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
     var interval = setInterval(function(){
       var n = Math.floor(Math.random()*36)+1;
       resultCircle.textContent = n;
-      resultCircle.style.background = (colorOf(n)==='rouge') ? 'var(--rouletteRed)' : 'var(--rouletteBlack)';
+      resultCircle.style.background = (colorOf(n)==='rouge') ? 'var(--bordeaux)' : '#1d1d1d';
       ticks++;
       if (ticks >= maxTicks){
         clearInterval(interval);
@@ -412,7 +353,7 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
     var finalNum = Math.floor(Math.random()*36)+1;
     var finalColor = colorOf(finalNum);
     resultCircle.textContent = finalNum;
-    resultCircle.style.background = (finalColor==='rouge') ? 'var(--rouletteRed)' : 'var(--rouletteBlack)';
+    resultCircle.style.background = (finalColor==='rouge') ? 'var(--bordeaux)' : '#1d1d1d';
 
     var win = false;
     if (betType === 'color') win = (betValue === finalColor);
@@ -442,6 +383,7 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
 
   nainBtn.addEventListener('click', function(){
     msIndice.classList.add('show');
+    msIndice.scrollIntoView({behavior:'smooth', block:'center'});
   });
 
   updateBalanceDisplay();
