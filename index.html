@@ -6,48 +6,63 @@
 <title>Megasouye 10 — Accueil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
-    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
-    --bleu:#293468; --bordure:#c8a060;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:24px 16px;
-    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
-    background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-  }
-  .card{
-    background:var(--cremeclair);
-    border:2px solid var(--bordure);
-    border-radius:14px;
-    box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:560px; width:100%; padding:34px 26px; text-align:center;
-    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
-  }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.9rem; color:var(--bordeaux); line-height:1.05; margin-bottom:8px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.3rem; color:var(--rougeclair); margin-bottom:22px;}
-  p{font-size:1.08rem; line-height:1.6; margin-bottom:14px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:22px 0;}
-  .crest{font-size:2.2rem; margin-bottom:10px;}
-  .note{font-size:.85rem; color:var(--vertf); font-style:italic;}
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
+:root{
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
+  min-height:100vh;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:30px 14px 56px;
+}
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:54px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.05; margin-bottom:6px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:16px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:16px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:24px 22px; position:relative; text-align:center;
+}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-footer{margin-top:24px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:44px} }
+
+/* ── SPÉCIFIQUE : Accueil ── */
+.crest{font-size:2.4rem; margin-bottom:12px; position:relative}
+.intro{font-size:1.08rem; line-height:1.62; margin-bottom:14px; position:relative; color:#3a1a0a}
+.intro:last-child{margin-bottom:0}
+.intro strong{color:var(--bordeaux)}
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="crest">⚔ 🐉 👑</div>
-    <h1>Megasouye 10</h1>
-    <p class="sub">Soirée médiévale — le grand fil rouge</p>
-    <div class="hr"></div>
-    <p>Bienvenue, noble convive ! Tout au long de la soirée, des énigmes t'attendent, dispersées sur les lieux du royaume.</p>
-    <p>Chaque épreuve résolue te livre un <strong>indice</strong>. Rassemble-les tous pour percer le secret final.</p>
-    <p>Trouve les affiches, scanne, réfléchis, et rapporte tes réponses aux organisateurs. Pas de chrono, pas de course : seulement le plaisir de la quête. 🍺</p>
-    <div class="hr"></div>
-    <p class="note">Page d'accueil temporaire — à enrichir</p>
-  </div>
+
+<div class="ms-header">
+  <div class="ms-stamp">Megasouye 10 · 2026</div>
+  <h1 class="ms-title">Megasouye 10</h1>
+  <p class="ms-sub">Soirée médiévale — le grand fil rouge</p>
+</div>
+<hr class="ms-divider">
+
+<div class="ms-card">
+  <div class="crest">⚔ 🐉 👑</div>
+  <p class="intro">Bienvenue, noble convive ! Tout au long de la soirée, des énigmes t'attendent, dispersées sur les lieux du royaume.</p>
+  <p class="intro">Chaque épreuve résolue te livre un <strong>indice</strong>. Rassemble-les tous pour percer le secret final.</p>
+  <p class="intro">Trouve les affiches, scanne, réfléchis, et rapporte tes réponses aux organisateurs. Pas de chrono, pas de course : seulement le plaisir de la quête. 🍺</p>
+</div>
+
+<div class="ms-footer">Megasouye 10 · 2026</div>
+
 </body>
 </html>
