@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Validation</title>
+<title>Megasouye 10 — Validation de la Quête</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
@@ -14,39 +14,248 @@
     --bleu:#293468; --bordure:#c8a060;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
   body{
     font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:24px 16px;
+    min-height:100vh; padding:22px 14px 50px;
     background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
     background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    display:flex; flex-direction:column; align-items:center;
+    overflow-x:hidden;
   }
   .card{
     background:var(--cremeclair);
     border:2px solid var(--bordure);
     border-radius:14px;
     box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:560px; width:100%; padding:34px 26px; text-align:center;
+    max-width:620px; width:100%; padding:28px 22px 32px; text-align:center;
     background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
+    position:relative; z-index:2;
   }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); line-height:1.05; margin-bottom:8px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.2rem; color:var(--rougeclair); margin-bottom:22px;}
-  p{font-size:1.06rem; line-height:1.6; margin-bottom:14px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:22px 0;}
-  .crest{font-size:2rem; margin-bottom:10px;}
-  .note{font-size:.85rem; color:var(--vertf); font-style:italic;}
+  .badge{
+    display:inline-block; font-family:'Simonetta',serif; font-size:.9rem;
+    color:var(--cremeclair); background:var(--vertf);
+    padding:5px 16px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px;
+  }
+  h1{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); line-height:1.05; margin-bottom:6px;}
+  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.15rem; color:var(--rougeclair); margin-bottom:18px;}
+  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
+
+  .fields{display:flex; flex-direction:column; gap:12px; margin-top:8px;}
+  .field{
+    display:flex; align-items:center; gap:12px;
+    background:#fffdf6; border:1px solid #e0c896; border-radius:12px;
+    padding:8px 12px; box-shadow:0 1px 3px rgba(120,80,30,.12);
+  }
+  .field img{
+    width:52px; height:52px; object-fit:contain; flex-shrink:0;
+    filter:drop-shadow(0 1px 2px rgba(80,40,10,.3));
+  }
+  .field .lbl-input{flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:3px;}
+  .field label{font-family:'Simonetta',serif; font-style:italic; font-size:.9rem; color:var(--vertf);}
+  .field input{
+    width:100%; font-family:'Andada Pro',serif; font-size:1rem; color:var(--bordeaux);
+    border:1.5px solid var(--bordure); border-radius:8px; padding:7px 10px; background:#fffefb; outline:none;
+  }
+  .field input:focus{border-color:var(--or); background:#fff;}
+  .field.ok{border-color:var(--vertc); background:#eef6e6;}
+  .field.bad{border-color:var(--rougeclair);}
+
+  .btn{
+    font-family:'Simonetta',serif; font-size:1.25rem; letter-spacing:.5px;
+    color:var(--cremeclair); background:var(--bordeaux);
+    border:2px solid var(--bordure); border-radius:10px;
+    padding:14px 36px; cursor:pointer; margin-top:22px;
+    transition:transform .08s ease, background .2s ease;
+  }
+  .btn:hover{background:var(--rougeclair);}
+  .btn:active{transform:scale(.97);}
+  .feedback{min-height:26px; margin-top:14px; font-size:1.05rem; font-weight:600;}
+  .feedback.ko{color:var(--rougeclair);}
+  .feedback.partial{color:#a8761e;}
+
+  #confetti{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;}
+  .confetto{position:absolute; top:-20px; width:10px; height:16px; opacity:.95; will-change:transform;}
+
+  #banners{position:fixed; top:0; left:0; right:0; height:0; pointer-events:none; z-index:40;}
+  .banner{
+    position:absolute; top:-260px; width:64px; height:230px;
+    background:var(--bordeaux); border:3px solid var(--or);
+    box-shadow:0 4px 10px rgba(0,0,0,.35);
+    display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
+  }
+  .banner::after{
+    content:""; position:absolute; bottom:-26px; left:-3px; right:-3px; height:30px;
+    background:var(--bordeaux); border-left:3px solid var(--or); border-right:3px solid var(--or);
+    clip-path:polygon(0 0, 50% 100%, 100% 0);
+  }
+  .banner .emblem{font-size:1.8rem;}
+
+  #gg{
+    display:none; position:fixed; inset:0; z-index:60;
+    background:rgba(40,15,5,.6); align-items:center; justify-content:center; padding:20px;
+  }
+  #gg.show{display:flex; animation:fade .4s ease;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .gg-card{
+    background:var(--cremeclair); border:3px solid var(--or); border-radius:16px;
+    max-width:440px; width:100%; padding:34px 26px; text-align:center;
+    box-shadow:0 12px 40px rgba(0,0,0,.5); animation:pop .5s ease;
+  }
+  @keyframes pop{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .gg-card .crest{font-size:2.6rem; margin-bottom:8px;}
+  .gg-card h2{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); margin-bottom:12px;}
+  .gg-card p{font-size:1.1rem; line-height:1.55;}
 </style>
 </head>
 <body>
+  <div id="confetti"></div>
+  <div id="banners"></div>
+
   <div class="card">
-    <div class="crest">📜 ✅ 🏆</div>
-    <h1>Salle du Trône</h1>
-    <p class="sub">Validation finale des quêtes</p>
-    <div class="hr"></div>
-    <p>Tu as rassemblé tes indices, vaillant aventurier ?</p>
-    <p>C'est ici que se vérifiera l'aboutissement de ta quête. Le mécanisme de validation sera scellé en ces lieux très bientôt.</p>
-    <div class="hr"></div>
-    <p class="note">Page de validation temporaire — Code : v9k</p>
+    <span class="badge">📜 Megasouye 10 — Salle du Trône 📜</span>
+    <h1>Validation de la Quête</h1>
+    <p class="sub">Reporte ici les huit indices récoltés au fil des épreuves</p>
+
+    <div class="fields" id="fields"></div>
+
+    <button class="btn" id="check">Valider la quête</button>
+    <div class="feedback" id="feedback"></div>
   </div>
+
+  <div id="gg">
+    <div class="gg-card">
+      <div class="crest">🏆 👑 🏆</div>
+      <h2>GG</h2>
+      <p>À définir</p>
+    </div>
+  </div>
+
+<script>
+const BASE = "../images/";
+const NB = 8;
+
+const HASHES = [
+  "d705b76b326ba5a3168ce43457671e39b9f59404f9d4145036542f2b980c9f56",
+  "41e4f4c43d2b535af1a0a3a736bd700cdb29bd79d6d21f6ed5f903b7f70a5bbe",
+  "ec9d82ac6bdcf71741e9bcbac7a8a2a44e860ab185599e762673b94180429b7a",
+  "bdd247b5d877737944c86d19e7a0318eb90e3e21908735c06c80126f31cae4ea",
+  "cc187165ad9f94459e0c37db2862e32b76521dd93379c646b3c4644d0d7ec9d8",
+  "384847ec6b25aaeab408e036399f0663936b3b5f0dc361bf991c671c28cf0ec4",
+  "34bbd65c92bd87422fba5efda08e6c782ad3c716020a36fbedba2eb9cfbd491a",
+  "c21addce3b8a991d318f8dfab8235d3dbb4bd727e173271e62c09ac2095c969d"
+];
+
+const PREFILL = ["INDICE1","INDICE2","INDICE3","INDICE4","INDICE5","INDICE6","INDICE7","INDICE8"];
+
+const fieldsEl = document.getElementById("fields");
+const inputs = [];
+for(let i=1;i<=NB;i++){
+  const f=document.createElement("div"); f.className="field"; f.dataset.idx=i-1;
+  const img=document.createElement("img");
+  img.src=BASE+"B"+i+".png"; img.alt="Bonhomme "+i;
+  img.onerror=function(){ this.style.visibility="hidden"; };
+  const box=document.createElement("div"); box.className="lbl-input";
+  const lab=document.createElement("label"); lab.textContent="Indice "+i;
+  const inp=document.createElement("input");
+  inp.type="text"; inp.value=PREFILL[i-1];
+  inp.setAttribute("autocomplete","off"); inp.setAttribute("autocorrect","off"); inp.setAttribute("spellcheck","false");
+  inp.addEventListener("input",()=>{ f.classList.remove("ok","bad"); clearFb(); });
+  box.appendChild(lab); box.appendChild(inp);
+  f.appendChild(img); f.appendChild(box);
+  fieldsEl.appendChild(f);
+  inputs.push(inp);
+}
+
+function clearFb(){ const f=document.getElementById("feedback"); f.textContent=""; f.className="feedback"; }
+
+async function sha256(str){
+  const buf=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function norm(s){ return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toUpperCase(); }
+
+document.getElementById("check").addEventListener("click", async ()=>{
+  const fb=document.getElementById("feedback");
+  let empty=false;
+  inputs.forEach((inp,i)=>{
+    const f=fieldsEl.children[i];
+    f.classList.remove("ok","bad");
+    if(inp.value.trim()==="") empty=true;
+  });
+  if(empty){
+    fb.textContent="Tous les indices doivent être renseignés.";
+    fb.className="feedback partial";
+    return;
+  }
+  let allOk=true;
+  for(let i=0;i<NB;i++){
+    const h=await sha256(norm(inputs[i].value));
+    if(h===HASHES[i]) fieldsEl.children[i].classList.add("ok");
+    else { fieldsEl.children[i].classList.add("bad"); allOk=false; }
+  }
+  if(allOk){
+    fb.textContent="";
+    celebrate();
+  } else {
+    inputs.forEach((inp,i)=>fieldsEl.children[i].classList.remove("ok","bad"));
+    fb.textContent="❌ Certains indices ne sont pas les bons. Vérifie ta quête.";
+    fb.className="feedback ko";
+  }
+});
+
+function celebrate(){
+  launchConfetti();
+  dropBanners();
+  setTimeout(()=>{ document.getElementById("gg").classList.add("show"); }, 900);
+}
+
+function launchConfetti(){
+  const wrap=document.getElementById("confetti");
+  const colors=["#962F24","#c14a35","#EDA02A","#f0c25c","#4A7A3E","#6DB35B","#293468","#EED9A8"];
+  const N=140;
+  for(let i=0;i<N;i++){
+    const c=document.createElement("div"); c.className="confetto";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.transform="rotate("+Math.random()*360+"deg)";
+    const dur=2.6+Math.random()*2.2;
+    const delay=Math.random()*0.8;
+    const drift=(Math.random()*2-1)*120;
+    c.animate(
+      [
+        {transform:`translate(0,0) rotate(0deg)`, opacity:1},
+        {transform:`translate(${drift}px, 105vh) rotate(${720+Math.random()*360}deg)`, opacity:.9}
+      ],
+      {duration:dur*1000, delay:delay*1000, easing:"cubic-bezier(.2,.6,.4,1)", fill:"forwards"}
+    );
+    wrap.appendChild(c);
+    setTimeout(()=>c.remove(), (dur+delay)*1000+200);
+  }
+}
+
+function dropBanners(){
+  const wrap=document.getElementById("banners");
+  const emblems=["⚔️","🛡️","👑","🐉","🏰","🗡️","⚜️","🦅"];
+  const N=8;
+  for(let i=0;i<N;i++){
+    const b=document.createElement("div"); b.className="banner";
+    b.style.left=(4+i*12)+"vw";
+    const em=document.createElement("div"); em.className="emblem";
+    em.textContent=emblems[i%emblems.length];
+    b.appendChild(em);
+    wrap.appendChild(b);
+    const delay=i*0.12;
+    b.animate(
+      [
+        {transform:"translateY(0)"},
+        {transform:"translateY(60px)"},
+        {transform:"translateY(50px)"}
+      ],
+      {duration:1100, delay:delay*1000, easing:"cubic-bezier(.3,1.4,.5,1)", fill:"forwards"}
+    );
+  }
+}
+</script>
 </body>
 </html>
