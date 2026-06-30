@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Jeu 6 : Le Glaive</title>
+<title>Megasouye 10 — Jeu 1 : Le Mastermind</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
@@ -37,8 +37,7 @@
     color:var(--cremeclair); background:var(--vertf);
     padding:5px 16px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px;
   }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.3rem; color:var(--bordeaux); line-height:1.1; margin-bottom:4px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.05rem; color:var(--rougeclair); margin-bottom:16px;}
+  h1{font-family:'UnifrakturCook',cursive; font-size:2.4rem; color:var(--bordeaux); line-height:1.1; margin-bottom:14px;}
   .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
 
   .board{display:flex; flex-direction:column; gap:8px; margin:6px 0 4px;}
@@ -62,18 +61,18 @@
   .peg.rouge{background:var(--c-rouge);}
 
   .hint{
-    display:grid; grid-template-columns:repeat(3,9px); grid-template-rows:repeat(2,9px);
-    gap:3px; flex-shrink:0; width:33px;
+    display:grid; grid-template-columns:repeat(3,10px); grid-template-rows:repeat(2,10px);
+    gap:3px; flex-shrink:0; width:36px;
   }
-  .dot{width:9px; height:9px; border-radius:50%; border:1px solid #9a7b3e;}
+  .dot{width:10px; height:10px; border-radius:50%; border:1.5px solid #9a7b3e; background:transparent;}
   .dot.black{background:#2a2018; border-color:#2a2018;}
-  .dot.empty{background:transparent;}
+  .dot.white{background:#ffffff; border-color:#9a7b3e;}
 
   .legend-note{font-size:.85rem; color:#6a4f1e; margin:8px 0 2px;}
   .legend-note .lg{display:inline-flex;align-items:center;gap:4px;margin:0 6px;}
   .mini{width:13px;height:13px;border-radius:50%;display:inline-block;}
   .mini.black{background:#2a2018;}
-  .mini.white{background:#fff;border:1px solid #9a7b3e;}
+  .mini.white{background:#fff;border:1.5px solid #9a7b3e;}
 
   .solve{margin-top:18px;}
   .solve h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.15rem; margin-bottom:10px;}
@@ -111,7 +110,7 @@
   .indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word;}
 
   @media (max-width:420px){
-    h1{font-size:2rem;}
+    h1{font-size:2.1rem;}
     .peg{width:28px;height:28px;}
   }
 </style>
@@ -119,8 +118,7 @@
 <body>
   <div class="card">
     <span class="badge">⚔ Megasouye 10 — Jeu 1 ⚔</span>
-    <h1>Le Glaive</h1>
-    <p class="sub">Difficulté : dur — 6 couleurs</p>
+    <h1>Le Mastermind</h1>
 
     <p class="legend-note">
       <span class="lg"><span class="mini black"></span> bonne couleur, bien placée</span>
@@ -143,7 +141,7 @@
     </div>
 
     <div class="hr"></div>
-    <p style="font-size:.8rem;color:var(--vertf);font-style:italic;">Note ton indice et rapporte-le aux organisateurs.</p>
+    <p style="font-size:.8rem;color:var(--vertf);font-style:italic;">Note ton indice pour la validation.</p>
   </div>
 
 <script>
@@ -182,7 +180,7 @@ ROWS.forEach(row=>{
   while(dots.length<6) dots.push("empty");
   dots.forEach(d=>{
     const dot=document.createElement("div");
-    dot.className = "dot " + (d==="black"?"black":(d==="white"?"":"empty"));
+    dot.className = "dot" + (d==="black"?" black":(d==="white"?" white":""));
     hint.appendChild(dot);
   });
   r.appendChild(pegs); r.appendChild(hint);
@@ -226,7 +224,7 @@ document.getElementById("check").addEventListener("click", async ()=>{
   const canon = vals.map(v=>map[v]).join("-");
   const h = await sha256(canon);
   if(h===SOLUTION_HASH){
-    fb.textContent="✅ Tu as percé le secret du Glaive !";
+    fb.textContent="✅ Tu as percé le secret !";
     fb.className="feedback"; fb.style.color="var(--vertf)";
     const ind=document.getElementById("indice"); ind.classList.add("show");
     ind.scrollIntoView({behavior:"smooth",block:"center"});
