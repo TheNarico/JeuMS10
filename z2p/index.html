@@ -38,9 +38,29 @@ h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow
 .rules-list{font-size:13px;color:#3a1a0a;line-height:1.85;font-family:'Andada Pro',serif;text-align:left;position:relative}
 .rules-list b{color:var(--bordeaux)}
 
-.target-box{background:linear-gradient(135deg,var(--bordeaux),var(--rougeclair));border-radius:8px;padding:14px;text-align:center;box-shadow:inset 0 2px 8px #00000033;position:relative}
+.target-box{background:linear-gradient(135deg,var(--bordeaux),var(--rougeclair));border-radius:8px;padding:14px;text-align:center;box-shadow:inset 0 2px 8px #00000033;position:relative;overflow:visible}
 .target-lbl{font-size:11px;color:#faeed2;font-family:'Simonetta',serif;letter-spacing:2px;margin-bottom:4px;opacity:.85}
+.target-num-wrap{position:relative;display:inline-block}
 .target-num{font-family:'UnifrakturCook',cursive;font-size:58px;color:var(--or);line-height:1;text-shadow:0 0 20px #eda02a55,2px 2px 0 #62180e}
+
+.hand{
+  position:absolute;top:50%;font-size:40px;opacity:0;pointer-events:none;
+  filter:drop-shadow(0 2px 3px #00000055);
+  transition:opacity .2s;
+}
+.hand.left{right:100%;margin-right:6px;transform:translateY(-50%) scaleX(-1);}
+.hand.right{left:100%;margin-left:6px;transform:translateY(-50%);}
+.hand.go{opacity:1}
+.hand.left.go{animation:bobA .42s ease-in-out infinite}
+.hand.right.go{animation:bobB .42s ease-in-out infinite}
+@keyframes bobA{
+  0%,100%{transform:translateY(-50%) scaleX(-1) translateY(-12px)}
+  50%{transform:translateY(-50%) scaleX(-1) translateY(12px)}
+}
+@keyframes bobB{
+  0%,100%{transform:translateY(-50%) translateY(12px)}
+  50%{transform:translateY(-50%) translateY(-12px)}
+}
 
 .nums-grid{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;position:relative}
 .ntile{
@@ -55,14 +75,14 @@ h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow
 
 .expr-box{
   background:#fff8e8;border:1.5px solid var(--bordure);border-radius:8px;
-  padding:14px 14px;min-height:58px;font-size:24px;line-height:1.5;
-  display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;
-  margin-bottom:10px;position:relative;
+  padding:14px 14px;min-height:58px;line-height:1.4;
+  display:flex;flex-wrap:nowrap;gap:5px;align-items:center;justify-content:center;
+  margin-bottom:10px;position:relative;overflow:hidden;
 }
-.tok{display:inline-flex;align-items:center;justify-content:center;border-radius:6px;padding:2px 10px;font-family:'Andada Pro',serif;font-weight:700;min-width:34px;height:38px}
+.tok{display:inline-flex;align-items:center;justify-content:center;border-radius:6px;padding:2px 9px;font-family:'Andada Pro',serif;font-weight:700;flex:0 0 auto}
 .tok-n{background:var(--vertf);color:#faeed2}
-.tok-o{background:var(--bordeaux);color:#faeed2;font-size:26px}
-.tok-p{background:var(--or);color:#3a1205;font-weight:700;font-size:26px}
+.tok-o{background:var(--bordeaux);color:#faeed2}
+.tok-p{background:var(--or);color:#3a1205;font-weight:700}
 .expr-ph{color:var(--bordure);font-style:italic;font-size:14px;font-family:'Andada Pro',serif;font-weight:400}
 
 .paren-info{font-size:12px;color:#7a5a3a;font-family:'Andada Pro',serif;text-align:center;margin:-2px 0 10px;position:relative}
@@ -142,7 +162,11 @@ footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',ser
   <div class="card-title">Nombre à atteindre</div>
   <div class="target-box">
     <div class="target-lbl">LE ROI EXIGE</div>
-    <div class="target-num">446</div>
+    <div class="target-num-wrap">
+      <span class="hand left" id="handL">🫴</span>
+      <span class="target-num">446</span>
+      <span class="hand right" id="handR">🫴</span>
+    </div>
   </div>
 </div>
 
@@ -191,6 +215,7 @@ var TARGET=446;
 var NUMS=[67,3,8,9,50,10];
 var expr=[];
 var usedIdx=[];
+var handTimer=null;
 
 NUMS.forEach(function(n,i){
   var d=document.createElement('div');
@@ -198,6 +223,15 @@ NUMS.forEach(function(n,i){
   d.onclick=function(){addNum(n,i);};
   document.getElementById('grid').appendChild(d);
 });
+
+function sixSeven(){
+  var L=document.getElementById('handL'), R=document.getElementById('handR');
+  L.classList.add('go'); R.classList.add('go');
+  if(handTimer)clearTimeout(handTimer);
+  handTimer=setTimeout(function(){
+    L.classList.remove('go'); R.classList.remove('go');
+  },2600);
+}
 
 function lastTok(){return expr.length?expr[expr.length-1]:null;}
 function openCount(){
@@ -228,6 +262,7 @@ function addNum(n,i){
   if(!canAddNumberOrOpen())return;
   usedIdx.push(i);expr.push({t:'n',v:n,i:i});
   document.getElementById('t'+i).classList.add('used');
+  if(n===67)sixSeven();
   draw();
 }
 function addOp(op){if(!canAddOp())return;expr.push({t:'o',v:op});draw();}
@@ -261,6 +296,7 @@ function draw(){
       s.textContent=t.v;
       el.appendChild(s);
     });
+    fitExpr();
   }
   var oc=openCount();
   var pi=document.getElementById('parenInfo');
@@ -273,6 +309,18 @@ function draw(){
   var l=lastTok();
   var complete=l&&((l.t==='n')||(l.t==='p'&&l.v===')'))&&oc===0&&expr.some(function(t){return t.t==='o';});
   document.getElementById('verifyBtn').disabled=!complete;
+}
+
+function fitExpr(){
+  var el=document.getElementById('exprBox');
+  var size=24;
+  el.style.fontSize=size+'px';
+  var guard=0;
+  while(el.scrollWidth>el.clientWidth && size>11 && guard<40){
+    size-=1;
+    el.style.fontSize=size+'px';
+    guard++;
+  }
 }
 
 function exprToString(){
