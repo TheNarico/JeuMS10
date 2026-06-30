@@ -28,7 +28,6 @@ body{
 .ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
 .ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
 .ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
-.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
 .ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
 .ms-card{
   width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
@@ -172,13 +171,12 @@ body{
   <div class="ms-stamp">Megasouye 10 · 2026</div>
   <img class="ms-avatar" id="msAvatar" alt="" onerror="this.style.display='none'">
   <h1 class="ms-title">La Roulette du Nain</h1>
-  <p class="ms-sub">Amassez 1000 pièces d'or, aventurier</p>
 </div>
 <hr class="ms-divider">
 
 <div class="ms-card">
   <div class="ms-card-title">Une rencontre inattendue</div>
-  <p class="lore-text">En chemin, vous croisez un nain qui propose de vous aider... en échange d'or. Hélas, vos poches sont presque vides. Heureusement, son ami tavernier vous propose une partie de roulette pour réunir la somme nécessaire.</p>
+  <p class="lore-text">En chemin, vous croisez un nain qui propose de vous aider... en échange de 1000 Pièces d'Or (PO). Hélas, vos poches sont presque vides. Heureusement, son ami le gnome vous propose une partie de roulette pour réunir cette somme.</p>
 </div>
 
 <div class="ms-card">
@@ -264,6 +262,7 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
 <script>
 (function(){
   var RED = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+  var WHEEL_ORDER = [32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
   var balance = 200;
   var betType = 'color';
   var betValue = 'rouge';
@@ -293,7 +292,8 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   function buildStripTrack(){
     stripTrack.innerHTML = '';
     for (var r = 0; r < REPEATS; r++){
-      for (var n = 1; n <= 36; n++){
+      for (var i = 0; i < WHEEL_ORDER.length; i++){
+        var n = WHEEL_ORDER[i];
         var div = document.createElement('div');
         div.className = 'strip-cell ' + (colorOf(n) === 'rouge' ? 'rouge' : 'noir');
         div.textContent = n;
@@ -442,7 +442,8 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
 
   function spinStrip(finalNum, callback){
     buildStripTrack();
-    var targetIndex = LAND_REPEAT * 36 + (finalNum - 1);
+    var posInWheel = WHEEL_ORDER.indexOf(finalNum);
+    var targetIndex = LAND_REPEAT * 36 + posInWheel;
     var windowWidth = stripWindow.clientWidth || 270;
     var markerX = windowWidth / 2;
     var finalTranslate = markerX - (targetIndex * CELL_WIDTH + CELL_WIDTH / 2);
@@ -458,11 +459,10 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   }
 
   function finishSpin(finalNum, mise, stake){
-    var finalColor = colorOf(finalNum);
     var win = false, gain = 0;
 
     if (betType === 'color'){
-      win = (betValue === finalColor);
+      win = (betValue === colorOf(finalNum));
       gain = win ? mise * 2 : 0;
     } else if (betType === 'dozen'){
       win = (Math.ceil(finalNum / 12) === betValue);
@@ -474,11 +474,11 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
 
     if (win){
       balance = balance - stake + gain;
-      resultMessage.textContent = 'Victoire ! Vous remportez ' + gain + ' PO (numéro ' + finalNum + ', ' + finalColor + ')';
+      resultMessage.textContent = 'Gagné ! Vous remportez ' + gain + ' PO';
       resultMessage.className = 'result-message win';
     } else {
       balance = balance - stake;
-      resultMessage.textContent = 'Perdu... le ' + finalNum + ' (' + finalColor + ') ne joue pas pour vous.';
+      resultMessage.textContent = 'Perdu...';
       resultMessage.className = 'result-message lose';
     }
 
