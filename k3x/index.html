@@ -3,131 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Jeu 3 : Mots croisés</title>
+<title>Les Mots de la Taverne — Megasouye 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
-    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
-    --bleu:#293468; --bordure:#c8a060;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{-webkit-text-size-adjust:100%;}
-  body{
-    font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:22px 14px 40px;
-    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
-    background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center;
-  }
-  .card{
-    background:var(--cremeclair);
-    border:2px solid var(--bordure);
-    border-radius:14px;
-    box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:600px; width:100%; padding:26px 20px 30px; text-align:center;
-    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
-  }
-  .badge{
-    display:inline-block; font-family:'Simonetta',serif; font-size:.9rem;
-    color:var(--cremeclair); background:var(--vertf);
-    padding:5px 16px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px;
-  }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.3rem; color:var(--bordeaux); line-height:1.1; margin-bottom:4px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.1rem; color:var(--rougeclair); margin-bottom:20px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
+:root{
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
+  min-height:100vh;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex; flex-direction:column; align-items:center;
+  padding:24px 14px 56px;
+}
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:18px 20px; position:relative;
+}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-card-title{font-family:'Simonetta',serif; font-style:italic; font-size:16px; color:var(--vertf); margin-bottom:10px; letter-spacing:.3px; position:relative}
+.ms-btn{
+  width:100%; max-width:480px; display:block; margin:4px auto 6px; padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux); border-radius:10px;
+  font-family:'UnifrakturCook',cursive; font-size:22px; color:#3a1205; cursor:pointer;
+  letter-spacing:1px; box-shadow:0 4px 14px #00000033; transition:.12s;
+}
+.ms-btn:active{transform:scale(.98)}
+.ms-btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
+.ms-indice{
+  display:none; width:100%; max-width:480px; margin-top:14px; padding:18px 16px;
+  background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf);
+  border-radius:12px; text-align:center;
+}
+.ms-indice.show{display:block; animation:msPop .4s ease}
+@keyframes msPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.ms-indice .crest{font-size:1.8rem; margin-bottom:6px}
+.ms-indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px}
+.ms-indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word}
+.ms-footer{margin-top:30px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:32px} .ms-avatar{width:82px;height:82px} }
 
-  .grid-wrap{display:flex; justify-content:center; margin:10px 0 8px;}
-  table.grid{border-collapse:separate; border-spacing:3px; margin:0 auto;
-    background:#e7cd96; padding:8px; border-radius:12px;
-    box-shadow:inset 0 1px 4px rgba(120,80,30,.25);}
-  table.grid td{width:36px; height:36px; padding:0; position:relative; border-radius:6px;}
-  td.void{background:transparent;}
-  td.cell{
-    background:#fffdf6;
-    box-shadow:inset 0 0 0 1px #d8b878, 0 1px 2px rgba(120,80,30,.18);
-  }
-  td.cell input{
-    width:100%; height:100%; border:none; background:transparent;
-    text-align:center; font-family:'Andada Pro',serif; font-weight:700;
-    font-size:1.1rem; color:var(--bordeaux); text-transform:uppercase; padding:0; outline:none;
-    border-radius:6px;
-  }
-  td.cell input:focus{background:var(--orclair); box-shadow:inset 0 0 0 2px var(--or);}
-  td.cell .num{position:absolute; top:2px; left:3px; font-size:.55rem; font-weight:700; color:#a8761e; line-height:1;}
-  td.cell.ok{background:#e3f0d8;}
-  td.cell.ok input{color:var(--vertf);}
+/* ── SPÉCIFIQUE : Mots fléchés ── */
+.grid-wrap{display:flex; justify-content:center; margin:4px 0 8px;position:relative}
+table.grid{border-collapse:separate; border-spacing:3px; margin:0 auto;
+  background:#e7cd96; padding:8px; border-radius:12px;
+  box-shadow:inset 0 1px 4px rgba(120,80,30,.25);}
+table.grid td{width:36px; height:36px; padding:0; position:relative; border-radius:6px;}
+td.void{background:transparent;}
+td.cell{background:#fffdf6; box-shadow:inset 0 0 0 1px #d8b878, 0 1px 2px rgba(120,80,30,.18);}
+td.cell input{
+  width:100%; height:100%; border:none; background:transparent;
+  text-align:center; font-family:'Andada Pro',serif; font-weight:700;
+  font-size:1.1rem; color:var(--bordeaux); text-transform:uppercase; padding:0; outline:none; border-radius:6px;
+}
+td.cell input:focus{background:var(--orclair); box-shadow:inset 0 0 0 2px var(--or);}
+td.cell .num{position:absolute; top:2px; left:3px; font-size:.55rem; font-weight:700; color:#a8761e; line-height:1;}
+td.cell.ok{background:#e3f0d8;}
+td.cell.ok input{color:var(--vertf);}
 
-  .clues{text-align:left; margin-top:8px;}
-  .clues h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.2rem; margin:14px 0 6px;}
-  .clues ul{list-style:none;}
-  .clues li{font-size:1rem; line-height:1.5; margin-bottom:7px; padding-left:4px;}
-  .clues li b{color:var(--bordeaux);}
+.clues{text-align:left; position:relative}
+.clues h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.15rem; margin:6px 0 6px;}
+.clues h2:not(:first-child){margin-top:14px;}
+.clues ul{list-style:none;}
+.clues li{font-size:1rem; line-height:1.5; margin-bottom:7px; padding-left:4px; color:#3a1a0a;}
+.clues li b{color:var(--bordeaux);}
+.clues li em{color:var(--vertf);font-style:italic;}
 
-  .btn{
-    font-family:'Simonetta',serif; font-size:1.15rem; letter-spacing:.5px;
-    color:var(--cremeclair); background:var(--bordeaux);
-    border:2px solid var(--bordure); border-radius:10px;
-    padding:12px 30px; cursor:pointer; margin-top:18px;
-    transition:transform .08s ease, background .2s ease;
-  }
-  .btn:hover{background:var(--rougeclair);}
-  .btn:active{transform:scale(.97);}
-  .feedback{min-height:26px; margin-top:14px; font-size:1.1rem; font-weight:600;}
-  .feedback.ko{color:var(--rougeclair);}
-  .feedback.partial{color:#a8761e;}
-
-  .indice{display:none; margin-top:18px; padding:18px 16px; background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf); border-radius:12px;}
-  .indice.show{display:block; animation:pop .4s ease;}
-  @keyframes pop{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
-  .indice .crest{font-size:1.8rem; margin-bottom:6px;}
-  .indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px;}
-  .indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word;}
-
-  .hint-help{font-size:.82rem; color:#8a6a2a; font-style:italic; margin-top:10px;}
-
-  @media (max-width:420px){
-    table.grid td{width:31px; height:31px;}
-    table.grid{border-spacing:2px;}
-    td.cell input{font-size:1rem;}
-    h1{font-size:2rem;}
-  }
+.feedback{min-height:26px; margin-top:6px; font-size:1.05rem; font-weight:600; text-align:center;}
+.feedback.ko{color:var(--rougeclair);}
+.feedback.partial{color:#a8761e;}
+.hint-help{font-size:.82rem; color:#faeed2; font-style:italic; margin:8px 0 0; text-align:center; opacity:.9;}
 </style>
 </head>
 <body>
-  <div class="card">
-    <span class="badge">⚔ Megasouye 10 — Jeu 0 ⚔</span>
-    <h1>Les Mots de la Taverne</h1>
-    <p class="sub">Remplis la grille tout entière pour percer l'énigme</p>
-    <div class="grid-wrap"><table class="grid" id="grid"></table></div>
-    <div class="clues">
-      <h2>Horizontal</h2>
-      <ul>
-        <li><b>2.</b> La meilleure arme dans une taverne.</li>
-        <li><b>4.</b> Il est fort.</li>
-        <li><b>5.</b> Au Moyen Âge, on en aurait sûrement été un. <em>(masculin et péjoratif)</em></li>
-        <li><b>6.</b> L'aventure pour trouver un bon verre.</li>
-      </ul>
-      <h2>Vertical</h2>
-      <ul>
-        <li><b>1.</b> On va peut-être en brûler une ce soir.</li>
-        <li><b>3.</b> Ses œufs ? J'éviterais d'en faire une omelette.</li>
-      </ul>
-    </div>
-    <button class="btn" id="check">Vérifier la grille</button>
-    <div class="feedback" id="feedback"></div>
-    <p class="hint-help">Les accents ne comptent pas : écris comme tu veux.</p>
-    <div class="indice" id="indice">
-      <div class="crest">🗝️</div>
-      <div class="lbl">Ton indice pour la quête finale :</div>
-      <div class="val" id="indiceVal">A definir</div>
-    </div>
-    <div class="hr"></div>
-    <p style="font-size:.8rem;color:var(--vertf);font-style:italic;">Note ton indice et rapporte-le aux organisateurs.</p>
+
+<div class="ms-header">
+  <div class="ms-stamp">Megasouye 10 · 2026</div>
+  <img class="ms-avatar" id="msAvatar" alt="" onerror="this.style.display='none'">
+  <h1 class="ms-title">Les Mots de la Taverne</h1>
+  <p class="ms-sub">Remplis la grille tout entière pour percer l'énigme</p>
+</div>
+<hr class="ms-divider">
+
+<div class="ms-card">
+  <div class="ms-card-title">La grille</div>
+  <div class="grid-wrap"><table class="grid" id="grid"></table></div>
+  <div class="clues">
+    <h2>Horizontal</h2>
+    <ul>
+      <li><b>2.</b> La meilleure arme dans une taverne.</li>
+      <li><b>4.</b> Il est fort.</li>
+      <li><b>5.</b> Au Moyen Âge, on en aurait sûrement été un. <em>(masculin et péjoratif)</em></li>
+      <li><b>6.</b> L'aventure pour trouver un bon verre.</li>
+    </ul>
+    <h2>Vertical</h2>
+    <ul>
+      <li><b>1.</b> On va peut-être en brûler une ce soir.</li>
+      <li><b>3.</b> Ses œufs ? J'éviterais d'en faire une omelette.</li>
+    </ul>
   </div>
+</div>
+
+<button class="ms-btn" id="check">Vérifier la grille</button>
+<div class="feedback" id="feedback"></div>
+<p class="hint-help">Les accents ne comptent pas : écris comme tu veux.</p>
+
+<div class="ms-indice" id="indice">
+  <div class="crest">🗝️</div>
+  <div class="lbl">Ton indice pour la validation :</div>
+  <div class="val">A definir</div>
+</div>
+
+<div class="ms-footer">Megasouye 10 · Les Mots de la Taverne</div>
+
 <script>
+(function(){
+  var GAME_NUM = 3;
+  var av=document.getElementById('msAvatar');
+  if(GAME_NUM===null){ if(av)av.style.display='none'; }
+  else if(av){ av.src='../images/B'+GAME_NUM+'.png'; av.alt='Personnage du jeu'; }
+})();
+
 const ROWS = 8, COLS = 9;
 const white = new Set([
   "0,2",
@@ -226,7 +239,7 @@ document.getElementById("check").addEventListener("click", async function(){
   }
   if (empty > 0){
     fb.textContent = "Il reste " + empty + " case" + (empty>1?"s":"") + " à remplir.";
-    fb.className = "feedback partial"; fb.style.color = "";
+    fb.className = "feedback partial";
     return;
   }
   const h = await sha256(canon);
@@ -239,7 +252,7 @@ document.getElementById("check").addEventListener("click", async function(){
     ind.scrollIntoView({behavior:"smooth", block:"center"});
   } else {
     fb.textContent = "❌ La grille n'est pas tout à fait juste. Persévère !";
-    fb.className = "feedback ko"; fb.style.color = "";
+    fb.className = "feedback ko";
   }
 });
 </script>
