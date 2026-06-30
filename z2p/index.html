@@ -2,55 +2,362 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Jeu 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Le Compte du Roi — Megasouye 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
-    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
-    --bleu:#293468; --bordure:#c8a060;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:24px 16px;
-    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
-    background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-  }
-  .card{
-    background:var(--cremeclair);
-    border:2px solid var(--bordure);
-    border-radius:14px;
-    box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:560px; width:100%; padding:30px 26px; text-align:center;
-    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
-  }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.4rem; color:var(--bordeaux); line-height:1.1; margin-bottom:6px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.15rem; color:var(--rougeclair); margin-bottom:22px;}
-  .badge{
-    display:inline-block; font-family:'Simonetta',serif; font-size:.95rem;
-    color:var(--cremeclair); background:var(--vertf);
-    padding:5px 16px; border-radius:20px; margin-bottom:18px; letter-spacing:.5px;
-  }
-  p{font-size:1.05rem; line-height:1.55; margin-bottom:14px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:20px 0;}
-  .note{font-size:.85rem; color:var(--vertf); font-style:italic;}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bordeaux:#962F24;--rougeclair:#c14a35;--or:#EDA02A;--orclair:#f0c25c;
+  --creme:#EED9A8;--cremeclair:#faeed2;--vertf:#4A7A3E;--vertc:#6DB35B;--bleu:#293468;--bordure:#c8a060;
+}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
+  min-height:100vh;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex;flex-direction:column;align-items:center;
+  padding:24px 14px 56px;
+}
+.header{text-align:center;margin-bottom:6px}
+.ms-label{font-size:11px;letter-spacing:3px;color:#eed9a8;text-transform:uppercase;opacity:.85;margin-bottom:6px}
+h1{font-family:'UnifrakturCook',cursive;font-size:38px;color:#eed9a8;text-shadow:2px 2px 0 #62180e,0 0 20px #00000055;line-height:1.1;margin-bottom:4px}
+.sub{font-family:'Simonetta',serif;font-style:italic;font-size:14px;color:#faeed2;opacity:.95}
+.divider{width:100%;max-width:480px;margin:14px auto;border:none;height:1px;background:linear-gradient(to right,transparent,#eed9a8,transparent);opacity:.6}
+
+.card{
+  width:100%;max-width:480px;margin-bottom:16px;background:var(--cremeclair);
+  border-radius:8px;box-shadow:0 4px 24px #62180e55,inset 0 0 40px #c8a86022;
+  padding:18px 20px;position:relative;border:1px solid var(--bordure);
+}
+.card::before{content:'';position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px);pointer-events:none}
+.card-title{font-family:'Simonetta',serif;font-style:italic;font-size:16px;color:var(--vertf);margin-bottom:10px;letter-spacing:.3px;position:relative}
+
+.rules-list{font-size:13px;color:#3a1a0a;line-height:1.85;font-family:'Andada Pro',serif;text-align:left;position:relative}
+.rules-list b{color:var(--bordeaux)}
+
+.target-box{background:linear-gradient(135deg,var(--bordeaux),var(--rougeclair));border-radius:8px;padding:14px;text-align:center;box-shadow:inset 0 2px 8px #00000033;position:relative}
+.target-lbl{font-size:11px;color:#faeed2;font-family:'Simonetta',serif;letter-spacing:2px;margin-bottom:4px;opacity:.85}
+.target-num{font-family:'UnifrakturCook',cursive;font-size:58px;color:var(--or);line-height:1;text-shadow:0 0 20px #eda02a55,2px 2px 0 #62180e}
+
+.nums-grid{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;position:relative}
+.ntile{
+  width:64px;height:64px;background:linear-gradient(135deg,var(--vertf),var(--vertc));
+  border:2px solid var(--creme);border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'UnifrakturCook',cursive;font-size:24px;color:#faeed2;cursor:pointer;user-select:none;
+  box-shadow:0 3px 8px #00000033;transition:transform .12s,opacity .15s;position:relative;
+}
+.ntile:active{transform:scale(.92)}
+.ntile.used{background:#d8c190;border-color:#b89a5e;color:#b89a5e;cursor:default;opacity:.55}
+.ntile.used::after{content:"✓";position:absolute;top:3px;right:6px;font-size:12px;color:var(--vertf);font-family:sans-serif}
+
+.expr-box{
+  background:#fff8e8;border:1.5px solid var(--bordure);border-radius:8px;
+  padding:14px 14px;min-height:58px;font-size:24px;line-height:1.5;
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;
+  margin-bottom:10px;position:relative;
+}
+.tok{display:inline-flex;align-items:center;justify-content:center;border-radius:6px;padding:2px 10px;font-family:'Andada Pro',serif;font-weight:700;min-width:34px;height:38px}
+.tok-n{background:var(--vertf);color:#faeed2}
+.tok-o{background:var(--bordeaux);color:#faeed2;font-size:26px}
+.tok-p{background:var(--or);color:#3a1205;font-weight:700;font-size:26px}
+.expr-ph{color:var(--bordure);font-style:italic;font-size:14px;font-family:'Andada Pro',serif;font-weight:400}
+
+.paren-info{font-size:12px;color:#7a5a3a;font-family:'Andada Pro',serif;text-align:center;margin:-2px 0 10px;position:relative}
+.paren-info b{color:var(--or);background:#5a3410;padding:1px 7px;border-radius:5px}
+
+.ops-row{display:flex;gap:8px;justify-content:center;margin-bottom:8px;position:relative}
+.op-btn{
+  width:56px;height:52px;background:linear-gradient(135deg,var(--bordeaux),var(--rougeclair));
+  border:1.5px solid var(--creme);border-radius:8px;font-size:26px;color:var(--creme);cursor:pointer;
+  font-family:sans-serif;box-shadow:0 2px 6px #00000033;transition:.12s;
+}
+.op-btn:active{transform:scale(.93)}
+.op-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+.paren-row{display:flex;gap:8px;justify-content:center;margin-bottom:8px;position:relative}
+.pbtn{
+  width:64px;height:48px;border-radius:8px;font-size:24px;cursor:pointer;font-weight:700;
+  border:1.5px solid var(--creme);box-shadow:0 2px 4px #00000022;transition:.12s;
+  background:linear-gradient(135deg,#b8860b,var(--or));color:#3a1205;font-family:sans-serif;
+}
+.pbtn:active{transform:scale(.93)}
+.pbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+.util-row{display:flex;gap:8px;justify-content:center;position:relative}
+.ubtn{flex:1;max-width:150px;padding:11px;border-radius:8px;font-size:14px;cursor:pointer;font-family:'Andada Pro',serif;font-weight:600;border:1.5px solid var(--creme);box-shadow:0 2px 4px #00000022;transition:.12s;background:var(--bordeaux);color:#faeed2}
+.ubtn:active{transform:scale(.94)}
+
+.btn-verify{
+  width:100%;max-width:480px;display:block;margin:4px auto 6px;padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux);border-radius:10px;
+  font-family:'UnifrakturCook',cursive;font-size:22px;color:#3a1205;cursor:pointer;letter-spacing:1px;
+  box-shadow:0 4px 14px #00000033;transition:.12s;
+}
+.btn-verify:active{transform:scale(.98)}
+.btn-verify:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+.result{display:none;width:100%;max-width:480px;padding:16px;border-radius:10px;text-align:center;margin-top:8px;border:2px solid;box-shadow:0 4px 12px #00000033;background:var(--cremeclair)}
+.rok{border-color:var(--vertf)}
+.rfail{border-color:var(--bordeaux)}
+.ricon{font-size:34px;margin-bottom:6px}
+.rtxt{font-family:'Simonetta',serif;font-size:18px;font-weight:900;margin-bottom:4px;color:#3a1a0a}
+.rsub{font-size:13px;color:#7a5a3a;font-family:'Andada Pro',serif}
+
+.indice{display:none;width:100%;max-width:480px;margin-top:14px;padding:18px 16px;background:linear-gradient(180deg,#fff6e0,#f6e6bf);border:2px solid var(--vertf);border-radius:12px;text-align:center}
+.indice.show{display:block;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.indice .crest{font-size:1.8rem;margin-bottom:6px}
+.indice .lbl{font-family:'Simonetta',serif;font-style:italic;color:var(--vertf);font-size:1rem;margin-bottom:6px}
+.indice .val{font-family:'UnifrakturCook',cursive;font-size:1.8rem;color:var(--bordeaux);letter-spacing:1px}
+
+.hint{font-size:11px;color:#faeed2;text-align:center;margin-bottom:12px;font-family:'Andada Pro',serif;opacity:.85}
+footer{margin-top:30px;font-size:11px;color:#faeed2;font-family:'Andada Pro',serif;text-align:center;opacity:.7}
 </style>
 </head>
 <body>
-  <div class="card">
-    <span class="badge">⚔ Megasouye 10 ⚔</span>
-    <h1>Jeu 2</h1>
-    <p class="sub">L'énigme se prépare en coulisses…</p>
-    <div class="hr"></div>
-    <p>🐉 Cette épreuve n'est pas encore prête, noble aventurier.</p>
-    <p>Reviens bientôt : le parchemin de cette quête sera bientôt déroulé.</p>
-    <div class="hr"></div>
-    <p class="note">Page temporaire — Code : z2p</p>
+
+<div class="header">
+  <div class="ms-label">Megasouye 10 — 2026</div>
+  <h1>Le Compte du Roi</h1>
+  <p class="sub">Trouve le nombre que le Roi exige</p>
+</div>
+<hr class="divider">
+
+<div class="card">
+  <div class="card-title">Règles du jeu</div>
+  <div class="rules-list">
+    Combine les <b>6 nombres</b> avec <b>+ − × ÷</b> pour atteindre la cible.<br>
+    Chaque nombre s'utilise <b>au plus une fois</b> — pas besoin de tous les prendre.<br>
+    Les <b>règles de priorité</b> s'appliquent : <b>× et ÷</b> avant <b>+ et −</b>. Utilise les parenthèses pour changer l'ordre.<br>
+    Les <b>divisions doivent tomber juste</b> (résultat entier).<br>
+    Plusieurs chemins mènent au but : à toi de trouver le tien.
   </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Nombre à atteindre</div>
+  <div class="target-box">
+    <div class="target-lbl">LE ROI EXIGE</div>
+    <div class="target-num">446</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Nombres disponibles — appuie pour les ajouter</div>
+  <div class="nums-grid" id="grid"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">Ton expression</div>
+  <div class="expr-box" id="exprBox">
+    <span class="expr-ph">Appuie sur un nombre pour commencer…</span>
+  </div>
+  <div class="paren-info" id="parenInfo"></div>
+
+  <div class="ops-row">
+    <button class="op-btn" id="op-plus"  onclick="addOp('+')">+</button>
+    <button class="op-btn" id="op-minus" onclick="addOp('−')">−</button>
+    <button class="op-btn" id="op-mult"  onclick="addOp('×')">×</button>
+    <button class="op-btn" id="op-div"   onclick="addOp('÷')">÷</button>
+  </div>
+  <div class="paren-row">
+    <button class="pbtn" id="btn-open"  onclick="addOpen()">(</button>
+    <button class="pbtn" id="btn-close" onclick="addClose()">)</button>
+  </div>
+  <div class="util-row">
+    <button class="ubtn" onclick="delLast()">⌫ Effacer</button>
+    <button class="ubtn" onclick="clearAll()">✕ Tout effacer</button>
+  </div>
+</div>
+
+<button class="btn-verify" id="verifyBtn" onclick="verify()">⚖ Vérifier le compte</button>
+<p class="hint">Le bouton s'active quand ton expression est complète.</p>
+<div class="result" id="result"></div>
+
+<div class="indice" id="indice">
+  <div class="crest">🗝️</div>
+  <div class="lbl">Ton indice pour la validation :</div>
+  <div class="val">Indice 2</div>
+</div>
+
+<footer>Megasouye 10 · Le Compte du Roi</footer>
+
+<script>
+var TARGET=446;
+var NUMS=[67,3,8,9,50,10];
+var expr=[];
+var usedIdx=[];
+
+NUMS.forEach(function(n,i){
+  var d=document.createElement('div');
+  d.className='ntile';d.id='t'+i;d.textContent=n;
+  d.onclick=function(){addNum(n,i);};
+  document.getElementById('grid').appendChild(d);
+});
+
+function lastTok(){return expr.length?expr[expr.length-1]:null;}
+function openCount(){
+  var c=0; expr.forEach(function(t){if(t.t==='p'&&t.v==='(')c++;if(t.t==='p'&&t.v===')')c--;});
+  return c;
+}
+function canAddNumberOrOpen(){
+  var l=lastTok();
+  if(!l)return true;
+  if(l.t==='n')return false;
+  if(l.t==='p'&&l.v===')')return false;
+  return true;
+}
+function canAddOp(){
+  var l=lastTok();
+  if(!l)return false;
+  return (l.t==='n')||(l.t==='p'&&l.v===')');
+}
+function canAddClose(){
+  var l=lastTok();
+  if(!l)return false;
+  if(openCount()<=0)return false;
+  return (l.t==='n')||(l.t==='p'&&l.v===')');
+}
+
+function addNum(n,i){
+  if(usedIdx.indexOf(i)!==-1)return;
+  if(!canAddNumberOrOpen())return;
+  usedIdx.push(i);expr.push({t:'n',v:n,i:i});
+  document.getElementById('t'+i).classList.add('used');
+  draw();
+}
+function addOp(op){if(!canAddOp())return;expr.push({t:'o',v:op});draw();}
+function addOpen(){if(!canAddNumberOrOpen())return;expr.push({t:'p',v:'('});draw();}
+function addClose(){if(!canAddClose())return;expr.push({t:'p',v:')'});draw();}
+function delLast(){
+  if(!expr.length)return;
+  var last=expr.pop();
+  if(last.t==='n'){
+    var p=usedIdx.indexOf(last.i);
+    if(p!==-1)usedIdx.splice(p,1);
+    document.getElementById('t'+last.i).classList.remove('used');
+  }
+  draw();hideResult();
+}
+function clearAll(){
+  expr=[];usedIdx=[];
+  NUMS.forEach(function(_,i){document.getElementById('t'+i).classList.remove('used');});
+  draw();hideResult();
+}
+
+function draw(){
+  var el=document.getElementById('exprBox');
+  if(!expr.length){
+    el.innerHTML='<span class="expr-ph">Appuie sur un nombre pour commencer…</span>';
+  }else{
+    el.innerHTML='';
+    expr.forEach(function(t){
+      var s=document.createElement('span');
+      s.className='tok '+(t.t==='n'?'tok-n':(t.t==='o'?'tok-o':'tok-p'));
+      s.textContent=t.v;
+      el.appendChild(s);
+    });
+  }
+  var oc=openCount();
+  var pi=document.getElementById('parenInfo');
+  if(oc>0){pi.innerHTML='Parenthèses ouvertes à fermer : <b>'+oc+'</b>';}
+  else{pi.innerHTML='';}
+  document.getElementById('btn-open').disabled=!canAddNumberOrOpen();
+  document.getElementById('btn-close').disabled=!canAddClose();
+  var opDis=!canAddOp();
+  ['op-plus','op-minus','op-mult','op-div'].forEach(function(id){document.getElementById(id).disabled=opDis;});
+  var l=lastTok();
+  var complete=l&&((l.t==='n')||(l.t==='p'&&l.v===')'))&&oc===0&&expr.some(function(t){return t.t==='o';});
+  document.getElementById('verifyBtn').disabled=!complete;
+}
+
+function exprToString(){
+  return expr.map(function(t){
+    if(t.t==='o')return t.v.replace('−','-').replace('×','*').replace('÷','/');
+    return t.v;
+  }).join(' ');
+}
+
+function tokenize(s){
+  var tokens=[],i=0;
+  s=s.replace(/\s/g,'').replace(/−/g,'-').replace(/×/g,'*').replace(/÷/g,'/');
+  while(i<s.length){
+    if(s[i]>='0'&&s[i]<='9'){
+      var j=i;while(j<s.length&&s[j]>='0'&&s[j]<='9')j++;
+      tokens.push({t:'N',v:parseInt(s.slice(i,j),10)});i=j;
+    }else if('+-*/'.indexOf(s[i])!==-1){tokens.push({t:'O',v:s[i]});i++;}
+    else if(s[i]==='('){tokens.push({t:'L'});i++;}
+    else if(s[i]===')'){tokens.push({t:'R'});i++;}
+    else throw new Error('Caractère invalide');
+  }
+  return tokens;
+}
+function mkParser(tokens){
+  var pos=0;
+  function peek(){return pos<tokens.length?tokens[pos]:null;}
+  function consume(t){var tok=tokens[pos];if(t&&(!tok||tok.t!==t))throw new Error('Syntaxe');pos++;return tok;}
+  function parseExpr(){return parseAdd();}
+  function parseAdd(){
+    var r=parseMul(),nums=r[1];r=r[0];
+    while(peek()&&peek().t==='O'&&(peek().v==='+'||peek().v==='-')){
+      var op=consume('O').v;var rr=parseMul();nums=nums.concat(rr[1]);
+      r=op==='+'?r+rr[0]:r-rr[0];
+    }
+    return[r,nums];
+  }
+  function parseMul(){
+    var r=parsePrimary(),nums=r[1];r=r[0];
+    while(peek()&&peek().t==='O'&&(peek().v==='*'||peek().v==='/')){
+      var op=consume('O').v;var rr=parsePrimary();nums=nums.concat(rr[1]);
+      if(op==='*'){r=r*rr[0];}
+      else{if(rr[0]===0)throw new Error('Division par zéro');if(r%rr[0]!==0)throw new Error('Division non entière');r=r/rr[0];}
+    }
+    return[r,nums];
+  }
+  function parsePrimary(){
+    var tok=peek();
+    if(!tok)throw new Error('Expression incomplète');
+    if(tok.t==='N'){consume('N');return[tok.v,[tok.v]];}
+    if(tok.t==='L'){consume('L');var r=parseExpr();if(!peek()||peek().t!=='R')throw new Error('Parenthèse manquante');consume('R');return r;}
+    if(tok.t==='O'&&tok.v==='-'){consume('O');var r2=parsePrimary();return[-r2[0],r2[1]];}
+    throw new Error('Token inattendu');
+  }
+  return{run:function(){var r=parseExpr();if(pos!==tokens.length)throw new Error('Expression mal formée');return r;}};
+}
+function evalExpr(str){
+  var tokens=tokenize(str);
+  var res=mkParser(tokens).run();
+  return{val:res[0],used:res[1]};
+}
+
+function verify(){
+  var raw=exprToString();
+  if(!raw.trim()){return;}
+  try{
+    var r=evalExpr(raw);
+    if(r.val===TARGET){
+      showR(true,'Le Roi est satisfait !', raw.replace(/\*/g,'×').replace(/\//g,'÷').replace(/-/g,'−')+' = '+r.val);
+      var ind=document.getElementById('indice');ind.classList.add('show');
+    }else{
+      var diff=Math.abs(r.val-TARGET);
+      showR(false,'Pas tout à fait… ton total : '+r.val, 'Il s\u2019en faut de '+diff+' pour atteindre '+TARGET+'.');
+    }
+  }catch(e){showR(false,'Expression invalide', e.message);}
+}
+function showR(ok,title,sub){
+  var el=document.getElementById('result');
+  el.className='result '+(ok?'rok':'rfail');
+  el.style.display='block';
+  el.innerHTML='<div class="ricon">'+(ok?'👑':'⚔')+'</div><div class="rtxt">'+title+'</div><div class="rsub">'+sub+'</div>';
+  if(ok)el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function hideResult(){document.getElementById('result').style.display='none';}
+
+draw();
+</script>
 </body>
 </html>
