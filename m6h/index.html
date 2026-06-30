@@ -3,149 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Jeu 1 : Le Mastermind</title>
+<title>Le Mastermind — Megasouye 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
-    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
-    --bleu:#293468; --bordure:#c8a060;
-    --c-vert:#4A7A3E; --c-bleu:#293468; --c-orange:#EDA02A;
-    --c-blanc:#f4ecd8; --c-violet:#7d5ba6; --c-rouge:#962F24;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{-webkit-text-size-adjust:100%;}
-  body{
-    font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:22px 14px 40px;
-    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
-    background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center;
-  }
-  .card{
-    background:var(--cremeclair);
-    border:2px solid var(--bordure);
-    border-radius:14px;
-    box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:600px; width:100%; padding:26px 20px 30px; text-align:center;
-    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
-  }
-  .badge{
-    display:inline-block; font-family:'Simonetta',serif; font-size:.9rem;
-    color:var(--cremeclair); background:var(--vertf);
-    padding:5px 16px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px;
-  }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.4rem; color:var(--bordeaux); line-height:1.1; margin-bottom:14px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
+:root{
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
+  --c-vert:#4A7A3E; --c-bleu:#293468; --c-orange:#EDA02A;
+  --c-blanc:#f4ecd8; --c-violet:#7d5ba6; --c-rouge:#962F24;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
+  min-height:100vh;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex; flex-direction:column; align-items:center;
+  padding:24px 14px 56px;
+}
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:18px 20px; position:relative;
+}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-card-title{font-family:'Simonetta',serif; font-style:italic; font-size:16px; color:var(--vertf); margin-bottom:10px; letter-spacing:.3px; position:relative}
+.ms-btn{
+  width:100%; max-width:480px; display:block; margin:4px auto 6px; padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux); border-radius:10px;
+  font-family:'UnifrakturCook',cursive; font-size:22px; color:#3a1205; cursor:pointer;
+  letter-spacing:1px; box-shadow:0 4px 14px #00000033; transition:.12s;
+}
+.ms-btn:active{transform:scale(.98)}
+.ms-btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
+.ms-indice{
+  display:none; width:100%; max-width:480px; margin-top:14px; padding:18px 16px;
+  background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf);
+  border-radius:12px; text-align:center;
+}
+.ms-indice.show{display:block; animation:msPop .4s ease}
+@keyframes msPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.ms-indice .crest{font-size:1.8rem; margin-bottom:6px}
+.ms-indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px}
+.ms-indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word}
+.ms-footer{margin-top:30px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:32px} .ms-avatar{width:82px;height:82px} }
 
-  .board{display:flex; flex-direction:column; gap:8px; margin:6px 0 4px;}
-  .row{
-    display:flex; align-items:center; gap:8px;
-    background:#fffdf6; border:1px solid #e0c896; border-radius:12px;
-    padding:7px 10px; box-shadow:0 1px 3px rgba(120,80,30,.12);
-  }
-  .pegs{display:flex; gap:5px; flex:1; justify-content:center;}
-  .peg{
-    width:30px; height:30px; border-radius:50%;
-    box-shadow:inset 0 -2px 4px rgba(0,0,0,.22), inset 0 2px 3px rgba(255,255,255,.35), 0 1px 2px rgba(0,0,0,.2);
-    border:1.5px solid rgba(80,50,20,.35);
-  }
-  @media (min-width:380px){ .peg{width:34px;height:34px;} }
-  .peg.vert{background:var(--c-vert);}
-  .peg.bleu{background:var(--c-bleu);}
-  .peg.orange{background:var(--c-orange);}
-  .peg.blanc{background:var(--c-blanc);}
-  .peg.violet{background:var(--c-violet);}
-  .peg.rouge{background:var(--c-rouge);}
+/* ── SPÉCIFIQUE : Mastermind ── */
+.legend-note{font-size:.85rem; color:#6a4f1e; margin:2px 0 12px; text-align:center; position:relative}
+.legend-note .lg{display:inline-flex;align-items:center;gap:4px;margin:0 6px}
+.mini{width:13px;height:13px;border-radius:50%;display:inline-block}
+.mini.black{background:#2a2018}
+.mini.white{background:#fff;border:1.5px solid #9a7b3e}
 
-  .hint{
-    display:grid; grid-template-columns:repeat(3,10px); grid-template-rows:repeat(2,10px);
-    gap:3px; flex-shrink:0; width:36px;
-  }
-  .dot{width:10px; height:10px; border-radius:50%;}
-  .dot.black{background:#2a2018; box-shadow:inset 0 0 0 1px rgba(0,0,0,.3);}
-  .dot.white{background:#fffdf6; box-shadow:inset 0 0 0 1.5px #9a7b3e;}
-  .dot.empty{background:transparent;}
+.board{display:flex; flex-direction:column; gap:8px; position:relative}
+.row{
+  display:flex; align-items:center; gap:8px;
+  background:#fffdf6; border:1px solid #e0c896; border-radius:12px;
+  padding:7px 10px; box-shadow:0 1px 3px rgba(120,80,30,.12);
+}
+.pegs{display:flex; gap:5px; flex:1; justify-content:center}
+.peg{
+  width:30px; height:30px; border-radius:50%;
+  box-shadow:inset 0 -2px 4px rgba(0,0,0,.22), inset 0 2px 3px rgba(255,255,255,.35), 0 1px 2px rgba(0,0,0,.2);
+  border:1.5px solid rgba(80,50,20,.35);
+}
+@media (min-width:380px){ .peg{width:34px;height:34px;} }
+.peg.vert{background:var(--c-vert)}
+.peg.bleu{background:var(--c-bleu)}
+.peg.orange{background:var(--c-orange)}
+.peg.blanc{background:var(--c-blanc)}
+.peg.violet{background:var(--c-violet)}
+.peg.rouge{background:var(--c-rouge)}
+.hint{display:grid; grid-template-columns:repeat(3,10px); grid-template-rows:repeat(2,10px); gap:3px; flex-shrink:0; width:36px}
+.dot{width:10px; height:10px; border-radius:50%}
+.dot.black{background:#2a2018; box-shadow:inset 0 0 0 1px rgba(0,0,0,.3)}
+.dot.white{background:#fffdf6; box-shadow:inset 0 0 0 1.5px #9a7b3e}
+.dot.empty{background:transparent}
 
-  .legend-note{font-size:.85rem; color:#6a4f1e; margin:8px 0 2px;}
-  .legend-note .lg{display:inline-flex;align-items:center;gap:4px;margin:0 6px;}
-  .mini{width:13px;height:13px;border-radius:50%;display:inline-block;}
-  .mini.black{background:#2a2018;}
-  .mini.white{background:#fff;border:1.5px solid #9a7b3e;}
+.solve h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.15rem; margin-bottom:10px; text-align:center}
+.selectors{display:flex; gap:5px; justify-content:center; flex-wrap:nowrap; width:100%}
+.selwrap{display:flex; flex-direction:column; align-items:center; gap:4px; flex:1 1 0; min-width:0}
+.swatch{
+  width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(80,50,20,.35);
+  box-shadow:inset 0 -2px 4px rgba(0,0,0,.2); background:#ddd; flex-shrink:0;
+}
+select{
+  width:100%; min-width:0;
+  font-family:'Andada Pro',serif; font-size:.78rem; padding:4px 2px; text-align:center;
+  border:1.5px solid var(--bordure); border-radius:7px; background:#fffdf6; color:var(--bordeaux);
+}
+@media (min-width:380px){ .swatch{width:30px;height:30px;} select{font-size:.85rem;padding:4px;} }
 
-  .solve{margin-top:18px;}
-  .solve h2{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1.15rem; margin-bottom:10px;}
-  .selectors{display:flex; gap:6px; justify-content:center; flex-wrap:wrap;}
-  .selwrap{display:flex; flex-direction:column; align-items:center; gap:4px;}
-  .swatch{
-    width:30px;height:30px;border-radius:50%;border:1.5px solid rgba(80,50,20,.35);
-    box-shadow:inset 0 -2px 4px rgba(0,0,0,.2);
-    background:#ddd;
-  }
-  select{
-    font-family:'Andada Pro',serif; font-size:.85rem; padding:3px 4px;
-    border:1.5px solid var(--bordure); border-radius:7px; background:#fffdf6; color:var(--bordeaux);
-    max-width:74px;
-  }
-
-  .btn{
-    font-family:'Simonetta',serif; font-size:1.15rem; letter-spacing:.5px;
-    color:var(--cremeclair); background:var(--bordeaux);
-    border:2px solid var(--bordure); border-radius:10px;
-    padding:12px 30px; cursor:pointer; margin-top:18px;
-    transition:transform .08s ease, background .2s ease;
-  }
-  .btn:hover{background:var(--rougeclair);}
-  .btn:active{transform:scale(.97);}
-  .feedback{min-height:26px; margin-top:14px; font-size:1.1rem; font-weight:600;}
-  .feedback.ko{color:var(--rougeclair);}
-  .feedback.partial{color:#a8761e;}
-
-  .indice{display:none; margin-top:18px; padding:18px 16px; background:linear-gradient(180deg,#fff6e0,#f6e6bf); border:2px solid var(--vertf); border-radius:12px;}
-  .indice.show{display:block; animation:pop .4s ease;}
-  @keyframes pop{from{transform:scale(.92);opacity:0;}to{transform:scale(1);opacity:1;}}
-  .indice .crest{font-size:1.8rem; margin-bottom:6px;}
-  .indice .lbl{font-family:'Simonetta',serif; font-style:italic; color:var(--vertf); font-size:1rem; margin-bottom:6px;}
-  .indice .val{font-family:'UnifrakturCook',cursive; font-size:1.8rem; color:var(--bordeaux); letter-spacing:1px; word-break:break-word;}
-
-  @media (max-width:420px){
-    h1{font-size:2.1rem;}
-    .peg{width:28px;height:28px;}
-  }
+.feedback{min-height:26px; margin-top:14px; font-size:1.05rem; font-weight:600; text-align:center}
+.feedback.ko{color:var(--rougeclair)}
+.feedback.partial{color:#a8761e}
 </style>
 </head>
 <body>
-  <div class="card">
-    <span class="badge">⚔ Megasouye 10 — Jeu 1 ⚔</span>
-    <h1>Le Mastermind</h1>
 
-    <p class="legend-note">
-      <span class="lg"><span class="mini black"></span> bonne couleur, bien placée</span>
-      <span class="lg"><span class="mini white"></span> bonne couleur, mal placée</span>
-    </p>
+<div class="ms-header">
+  <div class="ms-stamp">Megasouye 10 · 2026</div>
+  <img class="ms-avatar" id="msAvatar" alt="" onerror="this.style.display='none'">
+  <h1 class="ms-title">Le Mastermind</h1>
+  <p class="ms-sub">Déduis la combinaison cachée des couleurs</p>
+</div>
+<hr class="ms-divider">
 
-    <div class="board" id="board"></div>
+<div class="ms-card">
+  <p class="legend-note">
+    <span class="lg"><span class="mini black"></span> bonne couleur, bien placée</span>
+    <span class="lg"><span class="mini white"></span> bonne couleur, mal placée</span>
+  </p>
+  <div class="board" id="board"></div>
+</div>
 
-    <div class="solve">
-      <h2>Indique ta réponse</h2>
-      <div class="selectors" id="selectors"></div>
-      <button class="btn" id="check">Vérifier</button>
-      <div class="feedback" id="feedback"></div>
-    </div>
+<div class="ms-card solve">
+  <h2>Compose ta réponse</h2>
+  <div class="selectors" id="selectors"></div>
+</div>
 
-    <div class="indice" id="indice">
-      <div class="crest">🗝️</div>
-      <div class="lbl">Ton indice pour la quête finale :</div>
-      <div class="val">A definir</div>
-    </div>
+<button class="ms-btn" id="check">Vérifier</button>
+<div class="feedback" id="feedback"></div>
 
-    <div class="hr"></div>
-    <p style="font-size:.8rem;color:var(--vertf);font-style:italic;">Note ton indice pour la validation.</p>
-  </div>
+<div class="ms-indice" id="indice">
+  <div class="crest">🗝️</div>
+  <div class="lbl">Ton indice pour la validation :</div>
+  <div class="val">A definir</div>
+</div>
+
+<div class="ms-footer">Megasouye 10 · Le Mastermind</div>
 
 <script>
+(function(){
+  var GAME_NUM = 6;
+  var av=document.getElementById('msAvatar');
+  if(GAME_NUM===null){ if(av)av.style.display='none'; }
+  else if(av){ av.src='../images/B'+GAME_NUM+'.png'; av.alt='Personnage du jeu'; }
+})();
+
 const COLORS = [
   {id:"vert",   label:"Vert"},
   {id:"bleu",   label:"Bleu"},
@@ -181,7 +190,7 @@ ROWS.forEach(row=>{
   while(dots.length<6) dots.push("empty");
   dots.forEach(d=>{
     const dot=document.createElement("div");
-    dot.className = "dot" + (d==="black"?" black":(d==="white"?" white":""));
+    dot.className = "dot " + d;
     hint.appendChild(dot);
   });
   r.appendChild(pegs); r.appendChild(hint);
