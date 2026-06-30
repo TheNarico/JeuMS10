@@ -69,15 +69,36 @@ body{
 .balance-value.objectif{color:var(--vertf)}
 .balance-target{font-size:.85rem; color:#8a6a40; margin-bottom:14px}
 
-.roulette-result{display:flex; justify-content:center; align-items:center; margin:6px 0 14px; position:relative}
-.result-circle{
-  width:92px; height:92px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'UnifrakturCook',cursive; font-size:2.1rem; color:#fff;
-  border:3px solid var(--or); box-shadow:0 4px 12px rgba(0,0,0,.3);
-  background:#1d1d1d;
+/* Bandeau roulette défilant */
+.strip-window{
+  position:relative; width:270px; max-width:100%; height:64px; margin:8px auto 6px;
+  overflow:hidden; border-radius:10px; border:3px solid var(--or); background:#1d1d1d;
+  box-shadow:0 4px 12px rgba(0,0,0,.35);
 }
-.result-message{text-align:center; font-weight:700; min-height:24px; margin-bottom:8px; position:relative; font-family:'Andada Pro',serif}
+.strip-track{position:absolute; top:0; left:0; height:100%; display:flex; will-change:transform;}
+.strip-cell{
+  width:54px; height:64px; flex:0 0 54px; display:flex; align-items:center; justify-content:center;
+  font-family:'UnifrakturCook',cursive; font-size:1.6rem; color:#fff;
+  border-right:1px solid rgba(255,255,255,.15);
+}
+.strip-cell.rouge{background:var(--bordeaux);}
+.strip-cell.noir{background:#1d1d1d;}
+.strip-center-box{
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:54px; height:100%; border-left:2px solid var(--or); border-right:2px solid var(--or);
+  pointer-events:none; box-sizing:border-box;
+}
+.strip-marker-top{
+  position:absolute; top:-2px; left:50%; transform:translateX(-50%);
+  width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent;
+  border-top:12px solid var(--or); filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));
+}
+.strip-marker-bottom{
+  position:absolute; bottom:-2px; left:50%; transform:translateX(-50%);
+  width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent;
+  border-bottom:12px solid var(--or); filter:drop-shadow(0 -2px 2px rgba(0,0,0,.4));
+}
+.result-message{text-align:center; font-weight:700; min-height:24px; margin:6px 0 8px; position:relative; font-family:'Andada Pro',serif}
 .result-message.win{color:var(--vertf)}
 .result-message.lose{color:var(--rougeclair)}
 
@@ -99,14 +120,21 @@ body{
 .bet-choice.rouge{background:var(--bordeaux); color:#fff}
 .bet-choice.noir{background:#1d1d1d; color:#fff}
 .bet-choice.selected{outline:3px solid var(--or); outline-offset:1px}
-.bet-choice.dozen,.bet-choice.number-select{background:var(--creme); color:#5a4530}
+.bet-choice.dozen{background:var(--creme); color:#5a4530}
 .bet-choice.dozen.selected{background:var(--orclair)}
 
-.number-select-wrap{display:flex; align-items:center; gap:8px; justify-content:center; width:100%}
-.number-select-wrap select{
-  font-size:1.05rem; padding:8px 12px; border-radius:8px; border:2px solid var(--bordure);
-  font-family:'Andada Pro',serif; font-weight:700; background:var(--creme); color:#5a4530;
+/* Grille chiffre fétiche multi-sélection */
+.numbers-explain{font-size:.82rem; color:#5a4530; text-align:center; margin-bottom:10px; font-style:italic; line-height:1.4; width:100%}
+.numbers-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:6px; width:100%; margin-bottom:6px;}
+.number-cell{
+  padding:8px 0; text-align:center; border-radius:6px; border:2px solid var(--bordure);
+  background:var(--creme); font-weight:700; font-family:'Andada Pro',serif; font-size:.82rem;
+  cursor:pointer; color:#5a4530; box-sizing:border-box;
 }
+.number-cell.red-num{border-top:4px solid var(--bordeaux);}
+.number-cell.black-num{border-top:4px solid #1d1d1d;}
+.number-cell.selected{background:var(--orclair); border-color:var(--bordeaux); outline:2px solid var(--or); color:var(--bordeaux);}
+.numbers-lock-msg{font-size:.8rem; color:var(--rougeclair); text-align:center; font-weight:700; min-height:18px; width:100%; margin-top:4px;}
 
 .mise-section{margin-bottom:10px; position:relative}
 .mise-label{font-size:.85rem; color:#5a4530; margin-bottom:6px; display:block; font-weight:600}
@@ -122,7 +150,7 @@ body{
 }
 .chip:active{background:var(--orclair)}
 
-.gain-potentiel{text-align:center; font-size:.95rem; color:var(--vertf); font-weight:700; margin:10px 0; position:relative}
+.gain-potentiel{text-align:center; font-size:.92rem; color:var(--vertf); font-weight:700; margin:10px 0; position:relative; line-height:1.4}
 .warning-mise{text-align:center; font-size:.8rem; color:var(--rougeclair); font-weight:700; min-height:18px; margin-bottom:6px; position:relative}
 
 .bankruptcy-overlay{
@@ -160,31 +188,35 @@ body{
     <div class="balance-target">Objectif : 1000 PO</div>
   </div>
 
-  <div class="roulette-result">
-    <div class="result-circle" id="resultCircle">?</div>
+  <div class="strip-window" id="stripWindow">
+    <div class="strip-track" id="stripTrack"></div>
+    <div class="strip-center-box"></div>
+    <div class="strip-marker-top"></div>
+    <div class="strip-marker-bottom"></div>
   </div>
   <div class="result-message" id="resultMessage"></div>
 
   <div class="bet-tabs">
     <div class="bet-tab active" data-tab="color">Rouge / Noir<br><small>×2</small></div>
-    <div class="bet-tab" data-tab="dozen">Douzaine<br><small>×3</small></div>
     <div class="bet-tab" data-tab="number">Chiffre fétiche<br><small>×36</small></div>
+    <div class="bet-tab" data-tab="dozen">Douzaine<br><small>×3</small></div>
   </div>
 
   <div class="bet-sub active" data-sub="color">
     <div class="bet-choice rouge selected" data-value="rouge">Rouge</div>
     <div class="bet-choice noir" data-value="noir">Noir</div>
   </div>
+
+  <div class="bet-sub" data-sub="number">
+    <p class="numbers-explain">Sélectionnez un ou plusieurs numéros. Chaque numéro coché engage la mise indiquée ci-dessous ; s'il sort, vous remportez ×36 sur cette mise.</p>
+    <div class="numbers-grid" id="numbersGrid"></div>
+    <p class="numbers-lock-msg" id="numbersLockMsg"></p>
+  </div>
+
   <div class="bet-sub" data-sub="dozen">
     <div class="bet-choice dozen selected" data-value="1">1 – 12</div>
     <div class="bet-choice dozen" data-value="2">13 – 24</div>
     <div class="bet-choice dozen" data-value="3">25 – 36</div>
-  </div>
-  <div class="bet-sub" data-sub="number">
-    <div class="number-select-wrap">
-      <span>Numéro :</span>
-      <select id="numberSelect"></select>
-    </div>
   </div>
 
   <div class="mise-section">
@@ -236,6 +268,7 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   var betType = 'color';
   var betValue = 'rouge';
   var spinning = false;
+  var selectedNumbers = new Set();
 
   var balanceValue = document.getElementById('balanceValue');
   var miseInput = document.getElementById('miseInput');
@@ -244,28 +277,80 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   var spinBtn = document.getElementById('spinBtn');
   var nainBtn = document.getElementById('nainBtn');
   var msIndice = document.getElementById('msIndice');
-  var resultCircle = document.getElementById('resultCircle');
   var resultMessage = document.getElementById('resultMessage');
   var bankruptcyOverlay = document.getElementById('bankruptcyOverlay');
-  var numberSelect = document.getElementById('numberSelect');
+  var stripWindow = document.getElementById('stripWindow');
+  var stripTrack = document.getElementById('stripTrack');
+  var numbersGrid = document.getElementById('numbersGrid');
+  var numbersLockMsg = document.getElementById('numbersLockMsg');
 
-  for (var n=1;n<=36;n++){
-    var opt = document.createElement('option');
-    opt.value = n; opt.textContent = n;
-    numberSelect.appendChild(opt);
+  var CELL_WIDTH = 54;
+  var REPEATS = 6;
+  var LAND_REPEAT = 4;
+
+  function colorOf(num){ return RED.indexOf(num) !== -1 ? 'rouge' : 'noir'; }
+
+  function buildStripTrack(){
+    stripTrack.innerHTML = '';
+    for (var r = 0; r < REPEATS; r++){
+      for (var n = 1; n <= 36; n++){
+        var div = document.createElement('div');
+        div.className = 'strip-cell ' + (colorOf(n) === 'rouge' ? 'rouge' : 'noir');
+        div.textContent = n;
+        stripTrack.appendChild(div);
+      }
+    }
   }
-  numberSelect.addEventListener('change', function(){
-    betValue = parseInt(numberSelect.value,10);
+
+  function buildNumbersGrid(){
+    numbersGrid.innerHTML = '';
+    for (var n = 1; n <= 36; n++){
+      var cell = document.createElement('div');
+      cell.className = 'number-cell ' + (colorOf(n) === 'rouge' ? 'red-num' : 'black-num');
+      cell.textContent = n;
+      cell.dataset.num = n;
+      cell.addEventListener('click', onNumberClick);
+      numbersGrid.appendChild(cell);
+    }
+  }
+
+  function onNumberClick(e){
+    var num = parseInt(e.currentTarget.dataset.num, 10);
+    var mise = currentMise();
+    if (selectedNumbers.has(num)){
+      selectedNumbers.delete(num);
+      e.currentTarget.classList.remove('selected');
+      numbersLockMsg.textContent = '';
+    } else {
+      var totalIfAdded = mise * (selectedNumbers.size + 1);
+      if (totalIfAdded > balance){
+        numbersLockMsg.textContent = 'Réduisez votre mise pour sélectionner plus de numéros.';
+        return;
+      }
+      selectedNumbers.add(num);
+      e.currentTarget.classList.add('selected');
+      numbersLockMsg.textContent = '';
+    }
     updateGain();
-  });
+  }
+
+  function enforceBudget(){
+    var mise = currentMise();
+    while (selectedNumbers.size > 0 && mise * selectedNumbers.size > balance){
+      var arr = Array.from(selectedNumbers);
+      var last = arr[arr.length - 1];
+      selectedNumbers.delete(last);
+      var cell = numbersGrid.querySelector('.number-cell[data-num="' + last + '"]');
+      if (cell) cell.classList.remove('selected');
+      numbersLockMsg.textContent = 'Réduisez votre mise pour sélectionner plus de numéros.';
+    }
+  }
 
   function multiplier(){
     if (betType === 'color') return 2;
     if (betType === 'dozen') return 3;
     return 36;
   }
-
-  function colorOf(num){ return RED.indexOf(num) !== -1 ? 'rouge' : 'noir'; }
 
   function updateBalanceDisplay(){
     balanceValue.textContent = balance + ' PO';
@@ -275,42 +360,71 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   }
 
   function currentMise(){
-    var v = parseInt(miseInput.value,10);
+    var v = parseInt(miseInput.value, 10);
     if (isNaN(v) || v < 1) v = 1;
     if (v > balance) v = balance;
     return v;
   }
 
-  function updateGain(){
-    var mise = currentMise();
-    var gain = mise * multiplier();
-    gainPotentiel.textContent = 'Gain potentiel si victoire : ' + gain + ' PO';
-    warningMise.textContent = (mise > balance/2 && balance>0) ? '⚠ Mise risquée : plus de la moitié de votre bourse !' : '';
+  function totalStake(){
+    if (betType === 'number') return currentMise() * selectedNumbers.size;
+    return currentMise();
   }
 
-  miseInput.addEventListener('input', updateGain);
+  function updateGain(){
+    var mise = currentMise();
+    if (betType === 'number'){
+      var count = selectedNumbers.size;
+      if (count === 0){
+        gainPotentiel.textContent = 'Sélectionnez au moins un numéro pour miser.';
+      } else {
+        var gainPerNum = mise * 36;
+        var total = mise * count;
+        gainPotentiel.textContent = 'Gain potentiel : ' + gainPerNum + ' PO si un numéro sort (mise totale engagée : ' + total + ' PO sur ' + count + ' numéro' + (count > 1 ? 's' : '') + ')';
+      }
+      var totalW = mise * count;
+      warningMise.textContent = (count > 0 && totalW > balance / 2 && balance > 0) ? '⚠ Mise risquée : plus de la moitié de votre bourse !' : '';
+    } else {
+      var gain = mise * multiplier();
+      gainPotentiel.textContent = 'Gain potentiel si victoire : ' + gain + ' PO';
+      warningMise.textContent = (mise > balance / 2 && balance > 0) ? '⚠ Mise risquée : plus de la moitié de votre bourse !' : '';
+    }
+  }
+
+  miseInput.addEventListener('input', function(){
+    if (betType === 'number') enforceBudget();
+    updateGain();
+  });
 
   document.querySelectorAll('.chip').forEach(function(chip){
     chip.addEventListener('click', function(){
       var amt = chip.getAttribute('data-amount');
-      miseInput.value = (amt === 'max') ? balance : Math.min(parseInt(amt,10), balance);
+      miseInput.value = (amt === 'max') ? balance : Math.min(parseInt(amt, 10), balance);
+      if (betType === 'number') enforceBudget();
       updateGain();
     });
   });
 
   document.querySelectorAll('.bet-tab').forEach(function(tab){
     tab.addEventListener('click', function(){
-      document.querySelectorAll('.bet-tab').forEach(function(t){t.classList.remove('active');});
+      document.querySelectorAll('.bet-tab').forEach(function(t){ t.classList.remove('active'); });
       tab.classList.add('active');
       betType = tab.getAttribute('data-tab');
-      document.querySelectorAll('.bet-sub').forEach(function(s){s.classList.remove('active');});
-      document.querySelector('.bet-sub[data-sub="'+betType+'"]').classList.add('active');
-      if (betType === 'color') betValue = 'rouge';
-      else if (betType === 'dozen') betValue = 1;
-      else betValue = parseInt(numberSelect.value,10);
-      document.querySelectorAll('.bet-choice').forEach(function(c){c.classList.remove('selected');});
-      var firstChoice = document.querySelector('.bet-sub[data-sub="'+betType+'"] .bet-choice');
-      if (firstChoice) firstChoice.classList.add('selected');
+      document.querySelectorAll('.bet-sub').forEach(function(s){ s.classList.remove('active'); });
+      document.querySelector('.bet-sub[data-sub="' + betType + '"]').classList.add('active');
+
+      if (betType === 'color'){
+        betValue = 'rouge';
+        document.querySelectorAll('.bet-sub[data-sub="color"] .bet-choice').forEach(function(c){ c.classList.remove('selected'); });
+        document.querySelector('.bet-sub[data-sub="color"] .bet-choice').classList.add('selected');
+      } else if (betType === 'dozen'){
+        betValue = 1;
+        document.querySelectorAll('.bet-sub[data-sub="dozen"] .bet-choice').forEach(function(c){ c.classList.remove('selected'); });
+        document.querySelector('.bet-sub[data-sub="dozen"] .bet-choice').classList.add('selected');
+      } else {
+        enforceBudget();
+      }
+      numbersLockMsg.textContent = '';
       updateGain();
     });
   });
@@ -318,57 +432,54 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
   document.querySelectorAll('.bet-choice').forEach(function(choice){
     choice.addEventListener('click', function(){
       var parent = choice.closest('.bet-sub');
-      parent.querySelectorAll('.bet-choice').forEach(function(c){c.classList.remove('selected');});
+      parent.querySelectorAll('.bet-choice').forEach(function(c){ c.classList.remove('selected'); });
       choice.classList.add('selected');
       var val = choice.getAttribute('data-value');
-      betValue = (betType === 'dozen') ? parseInt(val,10) : val;
+      betValue = (betType === 'dozen') ? parseInt(val, 10) : val;
       updateGain();
     });
   });
 
-  spinBtn.addEventListener('click', function(){
-    if (spinning || balance <= 0) return;
-    var mise = currentMise();
-    if (mise < 1 || mise > balance) return;
-    spinning = true;
-    spinBtn.disabled = true;
-    resultMessage.textContent = '';
-    resultMessage.className = 'result-message';
+  function spinStrip(finalNum, callback){
+    buildStripTrack();
+    var targetIndex = LAND_REPEAT * 36 + (finalNum - 1);
+    var windowWidth = stripWindow.clientWidth || 270;
+    var markerX = windowWidth / 2;
+    var finalTranslate = markerX - (targetIndex * CELL_WIDTH + CELL_WIDTH / 2);
 
-    var ticks = 0;
-    var maxTicks = 26;
-    var interval = setInterval(function(){
-      var n = Math.floor(Math.random()*36)+1;
-      resultCircle.textContent = n;
-      resultCircle.style.background = (colorOf(n)==='rouge') ? 'var(--bordeaux)' : '#1d1d1d';
-      ticks++;
-      if (ticks >= maxTicks){
-        clearInterval(interval);
-        finishSpin(mise);
-      }
-    }, 90);
-  });
+    stripTrack.style.transition = 'none';
+    stripTrack.style.transform = 'translateX(0px)';
+    void stripTrack.offsetWidth;
+    stripTrack.style.transition = 'transform 2.6s cubic-bezier(0.1,0.8,0.25,1)';
+    requestAnimationFrame(function(){
+      stripTrack.style.transform = 'translateX(' + finalTranslate + 'px)';
+    });
+    setTimeout(callback, 2700);
+  }
 
-  function finishSpin(mise){
-    var finalNum = Math.floor(Math.random()*36)+1;
+  function finishSpin(finalNum, mise, stake){
     var finalColor = colorOf(finalNum);
-    resultCircle.textContent = finalNum;
-    resultCircle.style.background = (finalColor==='rouge') ? 'var(--bordeaux)' : '#1d1d1d';
+    var win = false, gain = 0;
 
-    var win = false;
-    if (betType === 'color') win = (betValue === finalColor);
-    else if (betType === 'dozen') win = (Math.ceil(finalNum/12) === betValue);
-    else win = (finalNum === betValue);
+    if (betType === 'color'){
+      win = (betValue === finalColor);
+      gain = win ? mise * 2 : 0;
+    } else if (betType === 'dozen'){
+      win = (Math.ceil(finalNum / 12) === betValue);
+      gain = win ? mise * 3 : 0;
+    } else {
+      win = selectedNumbers.has(finalNum);
+      gain = win ? mise * 36 : 0;
+    }
 
     if (win){
-      var gain = mise * multiplier();
-      balance = balance - mise + gain;
+      balance = balance - stake + gain;
       resultMessage.textContent = 'Victoire ! Vous remportez ' + gain + ' PO (numéro ' + finalNum + ', ' + finalColor + ')';
-      resultMessage.classList.add('win');
+      resultMessage.className = 'result-message win';
     } else {
-      balance = balance - mise;
+      balance = balance - stake;
       resultMessage.textContent = 'Perdu... le ' + finalNum + ' (' + finalColor + ') ne joue pas pour vous.';
-      resultMessage.classList.add('lose');
+      resultMessage.className = 'result-message lose';
     }
 
     updateBalanceDisplay();
@@ -381,11 +492,34 @@ else if(av){av.src='../images/B'+GAME_NUM+'.png';av.alt='Personnage du jeu';}})(
     }
   }
 
-  nainBtn.addEventListener('click', function(){
-    msIndice.classList.add('show');
-    msIndice.scrollIntoView({behavior:'smooth', block:'center'});
+  spinBtn.addEventListener('click', function(){
+    if (spinning || balance <= 0) return;
+    if (betType === 'number' && selectedNumbers.size === 0){
+      numbersLockMsg.textContent = 'Sélectionnez au moins un numéro avant de lancer.';
+      return;
+    }
+    var mise = currentMise();
+    var stake = totalStake();
+    if (stake < 1 || stake > balance) return;
+
+    spinning = true;
+    spinBtn.disabled = true;
+    resultMessage.textContent = '';
+    resultMessage.className = 'result-message';
+
+    var finalNum = Math.floor(Math.random() * 36) + 1;
+    spinStrip(finalNum, function(){
+      finishSpin(finalNum, mise, stake);
+    });
   });
 
+  nainBtn.addEventListener('click', function(){
+    msIndice.classList.add('show');
+    msIndice.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  buildStripTrack();
+  buildNumbersGrid();
   updateBalanceDisplay();
   updateGain();
 })();
