@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Mastermind — Megasouye 10</title>
+<title>Le Maître de l'esprit — Megasouye 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
@@ -118,7 +118,7 @@ select{
 <div class="ms-header">
   <div class="ms-stamp">Megasouye 10 · 2026</div>
   <img class="ms-avatar" id="msAvatar" alt="" onerror="this.style.display='none'">
-  <h1 class="ms-title">Le Mastermind</h1>
+  <h1 class="ms-title">Le Maître de l'esprit</h1>
   <p class="ms-sub">Déduis la combinaison cachée des couleurs</p>
 </div>
 <hr class="ms-divider">
@@ -132,7 +132,7 @@ select{
 </div>
 
 <div class="ms-card solve">
-  <h2>Compose ta réponse</h2>
+  <h2>Indique la réponse (uniquement à partir des indices du dessus)</h2>
   <div class="selectors" id="selectors"></div>
 </div>
 
@@ -145,7 +145,7 @@ select{
   <div class="val">A definir</div>
 </div>
 
-<div class="ms-footer">Megasouye 10 · Le Mastermind</div>
+<div class="ms-footer">Megasouye 10 · Le Maître de l'esprit</div>
 
 <script>
 (function(){
@@ -156,12 +156,12 @@ select{
 })();
 
 const COLORS = [
-  {id:"vert",   label:"Vert"},
-  {id:"bleu",   label:"Bleu"},
-  {id:"orange", label:"Orange"},
   {id:"blanc",  label:"Blanc"},
+  {id:"orange", label:"Orange"},
   {id:"violet", label:"Violet"},
-  {id:"rouge",  label:"Rouge"}
+  {id:"rouge",  label:"Rouge"},
+  {id:"bleu",   label:"Bleu"},
+  {id:"vert",   label:"Vert"}
 ];
 const SLOTS = 6;
 const SOLUTION_HASH = "36073f9d80accefb57eb3bc943e1243b38e83cfb065e727c26c75f5cc24eec4d";
