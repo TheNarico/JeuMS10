@@ -3,133 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megasouye 10 — Validation de la Quête</title>
+<title>Validation de la Quête — Megasouye 10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital@0;1&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Simonetta:ital,wght@0,400;0,900;1,400&family=Andada+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
-    --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
-    --bleu:#293468; --bordure:#c8a060;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{-webkit-text-size-adjust:100%;}
-  body{
-    font-family:'Andada Pro',serif; color:var(--bordeaux);
-    min-height:100vh; padding:22px 14px 50px;
-    background:linear-gradient(160deg,var(--bordeaux) 0%,var(--rougeclair) 35%,var(--or) 70%,var(--creme) 100%);
-    background-attachment:fixed;
-    display:flex; flex-direction:column; align-items:center;
-    overflow-x:hidden;
-  }
-  .card{
-    background:var(--cremeclair);
-    border:2px solid var(--bordure);
-    border-radius:14px;
-    box-shadow:0 8px 28px rgba(80,30,10,.45);
-    max-width:620px; width:100%; padding:28px 22px 32px; text-align:center;
-    background-image:repeating-linear-gradient(0deg,rgba(200,160,96,.06) 0 1px,transparent 1px 26px);
-    position:relative; z-index:2;
-  }
-  .badge{
-    display:inline-block; font-family:'Simonetta',serif; font-size:.9rem;
-    color:var(--cremeclair); background:var(--vertf);
-    padding:5px 16px; border-radius:20px; margin-bottom:14px; letter-spacing:.5px;
-  }
-  h1{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); line-height:1.05; margin-bottom:6px;}
-  .sub{font-family:'Simonetta',serif; font-style:italic; font-size:1.15rem; color:var(--rougeclair); margin-bottom:18px;}
-  .hr{height:2px; background:linear-gradient(90deg,transparent,var(--bordure),transparent); margin:18px 0;}
+/* ── SOCLE COMMUN MEGASOUYE 10 ── */
+:root{
+  --bordeaux:#962F24; --rougeclair:#c14a35; --or:#EDA02A; --orclair:#f0c25c;
+  --creme:#EED9A8; --cremeclair:#faeed2; --vertf:#4A7A3E; --vertc:#6DB35B;
+  --bleu:#293468; --bordure:#c8a060;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Andada Pro',Georgia,serif; color:var(--bordeaux);
+  min-height:100vh;
+  background:linear-gradient(160deg,#962F24 0%,#c14a35 30%,#eda02a 65%,#eed9a8 100%);
+  background-attachment:fixed;
+  display:flex; flex-direction:column; align-items:center;
+  padding:24px 14px 56px; overflow-x:hidden;
+}
+.ms-header{text-align:center; margin-bottom:10px}
+.ms-stamp{font-family:'Andada Pro',serif; font-size:11px; letter-spacing:3px; color:var(--creme); text-transform:uppercase; opacity:.85; margin-bottom:10px}
+.ms-avatar{width:96px; height:96px; object-fit:contain; margin:0 auto 6px; display:block; filter:drop-shadow(0 3px 5px rgba(60,20,5,.45))}
+.ms-title{font-family:'UnifrakturCook',cursive; font-size:38px; color:var(--creme); text-shadow:2px 2px 0 #62180e, 0 0 20px #00000055; line-height:1.1; margin-bottom:4px}
+.ms-sub{font-family:'Simonetta',serif; font-style:italic; font-size:14px; color:#faeed2; opacity:.95}
+.ms-divider{width:100%; max-width:480px; margin:14px auto; border:none; height:1px; background:linear-gradient(to right,transparent,var(--creme),transparent); opacity:.6}
+.ms-card{
+  width:100%; max-width:480px; margin-bottom:16px; background:var(--cremeclair);
+  border:1px solid var(--bordure); border-radius:8px;
+  box-shadow:0 4px 24px #62180e55, inset 0 0 40px #c8a86022;
+  padding:18px 20px; position:relative; z-index:2;
+}
+.ms-card::before{content:''; position:absolute; inset:0; border-radius:8px; background:repeating-linear-gradient(0deg,transparent,transparent 28px,#c8a06011 28px,#c8a06011 29px); pointer-events:none}
+.ms-btn{
+  width:100%; max-width:480px; display:block; margin:4px auto 6px; padding:15px;
+  background:linear-gradient(135deg,var(--or),var(--orclair),var(--or));
+  border:2px solid var(--bordeaux); border-radius:10px;
+  font-family:'UnifrakturCook',cursive; font-size:22px; color:#3a1205; cursor:pointer;
+  letter-spacing:1px; box-shadow:0 4px 14px #00000033; transition:.12s; position:relative; z-index:2;
+}
+.ms-btn:active{transform:scale(.98)}
+.ms-footer{margin-top:30px; font-size:11px; color:#faeed2; font-family:'Andada Pro',serif; text-align:center; opacity:.7}
+@media(max-width:420px){ .ms-title{font-size:32px} }
 
-  .fields{display:flex; flex-direction:column; gap:12px; margin-top:8px;}
-  .field{
-    display:flex; align-items:center; gap:12px;
-    background:#fffdf6; border:1px solid #e0c896; border-radius:12px;
-    padding:8px 12px; box-shadow:0 1px 3px rgba(120,80,30,.12);
-  }
-  .field img{
-    width:52px; height:52px; object-fit:contain; flex-shrink:0;
-    filter:drop-shadow(0 1px 2px rgba(80,40,10,.3));
-  }
-  .field .lbl-input{flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:3px;}
-  .field label{font-family:'Simonetta',serif; font-style:italic; font-size:.9rem; color:var(--vertf);}
-  .field input{
-    width:100%; font-family:'Andada Pro',serif; font-size:1rem; color:var(--bordeaux);
-    border:1.5px solid var(--bordure); border-radius:8px; padding:7px 10px; background:#fffefb; outline:none;
-  }
-  .field input:focus{border-color:var(--or); background:#fff;}
-  .field.ok{border-color:var(--vertc); background:#eef6e6;}
-  .field.bad{border-color:var(--rougeclair);}
+/* ── SPÉCIFIQUE : Validation ── */
+.fields{display:flex; flex-direction:column; gap:12px; position:relative}
+.field{
+  display:flex; align-items:center; gap:12px;
+  background:#fffdf6; border:1px solid #e0c896; border-radius:12px;
+  padding:8px 12px; box-shadow:0 1px 3px rgba(120,80,30,.12);
+}
+.field img{width:52px; height:52px; object-fit:contain; flex-shrink:0; filter:drop-shadow(0 1px 2px rgba(80,40,10,.3))}
+.field .lbl-input{flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:3px}
+.field label{font-family:'Simonetta',serif; font-style:italic; font-size:.9rem; color:var(--vertf)}
+.field input{
+  width:100%; font-family:'Andada Pro',serif; font-size:1rem; color:var(--bordeaux);
+  border:1.5px solid var(--bordure); border-radius:8px; padding:7px 10px; background:#fffefb; outline:none;
+}
+.field input:focus{border-color:var(--or); background:#fff}
+.field.ok{border-color:var(--vertc); background:#eef6e6}
+.field.bad{border-color:var(--rougeclair)}
 
-  .btn{
-    font-family:'Simonetta',serif; font-size:1.25rem; letter-spacing:.5px;
-    color:var(--cremeclair); background:var(--bordeaux);
-    border:2px solid var(--bordure); border-radius:10px;
-    padding:14px 36px; cursor:pointer; margin-top:22px;
-    transition:transform .08s ease, background .2s ease;
-  }
-  .btn:hover{background:var(--rougeclair);}
-  .btn:active{transform:scale(.97);}
-  .feedback{min-height:26px; margin-top:14px; font-size:1.05rem; font-weight:600;}
-  .feedback.ko{color:var(--rougeclair);}
-  .feedback.partial{color:#a8761e;}
+.feedback{min-height:26px; margin-top:8px; font-size:1.05rem; font-weight:600; text-align:center}
+.feedback.ko{color:#ffe0d8}
+.feedback.partial{color:#fff0c8}
 
-  #confetti{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;}
-  .confetto{position:absolute; top:-20px; width:10px; height:16px; opacity:.95; will-change:transform;}
+#confetti{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden}
+.confetto{position:absolute; top:-20px; width:10px; height:16px; opacity:.95; will-change:transform}
 
-  #banners{position:fixed; top:0; left:0; right:0; height:0; pointer-events:none; z-index:40;}
-  .banner{
-    position:absolute; top:-260px; width:64px; height:230px;
-    background:var(--bordeaux); border:3px solid var(--or);
-    box-shadow:0 4px 10px rgba(0,0,0,.35);
-    display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
-  }
-  .banner::after{
-    content:""; position:absolute; bottom:-26px; left:-3px; right:-3px; height:30px;
-    background:var(--bordeaux); border-left:3px solid var(--or); border-right:3px solid var(--or);
-    clip-path:polygon(0 0, 50% 100%, 100% 0);
-  }
-  .banner .emblem{font-size:1.8rem;}
+#banners{position:fixed; top:0; left:0; right:0; height:0; pointer-events:none; z-index:40}
+.banner{
+  position:absolute; top:-260px; width:64px; height:230px;
+  background:var(--bordeaux); border:3px solid var(--or);
+  box-shadow:0 4px 10px rgba(0,0,0,.35);
+  display:flex; align-items:flex-start; justify-content:center; padding-top:16px;
+}
+.banner::after{
+  content:""; position:absolute; bottom:-26px; left:-3px; right:-3px; height:30px;
+  background:var(--bordeaux); border-left:3px solid var(--or); border-right:3px solid var(--or);
+  clip-path:polygon(0 0, 50% 100%, 100% 0);
+}
+.banner .emblem{font-size:1.8rem}
 
-  #gg{
-    display:none; position:fixed; inset:0; z-index:60;
-    background:rgba(40,15,5,.6); align-items:center; justify-content:center; padding:20px;
-  }
-  #gg.show{display:flex; animation:fade .4s ease;}
-  @keyframes fade{from{opacity:0;}to{opacity:1;}}
-  .gg-card{
-    background:var(--cremeclair); border:3px solid var(--or); border-radius:16px;
-    max-width:440px; width:100%; padding:34px 26px; text-align:center;
-    box-shadow:0 12px 40px rgba(0,0,0,.5); animation:pop .5s ease;
-  }
-  @keyframes pop{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
-  .gg-card .crest{font-size:2.6rem; margin-bottom:8px;}
-  .gg-card h2{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); margin-bottom:12px;}
-  .gg-card p{font-size:1.1rem; line-height:1.55;}
+#gg{display:none; position:fixed; inset:0; z-index:60; background:rgba(40,15,5,.6); align-items:center; justify-content:center; padding:20px}
+#gg.show{display:flex; animation:fade .4s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.gg-card{
+  background:var(--cremeclair); border:3px solid var(--or); border-radius:16px;
+  max-width:440px; width:100%; padding:34px 26px; text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.5); animation:ggpop .5s ease;
+}
+@keyframes ggpop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.gg-card .crest{font-size:2.6rem; margin-bottom:8px}
+.gg-card h2{font-family:'UnifrakturCook',cursive; font-size:2.6rem; color:var(--bordeaux); margin-bottom:12px}
+.gg-card p{font-size:1.1rem; line-height:1.55}
 </style>
 </head>
 <body>
-  <div id="confetti"></div>
-  <div id="banners"></div>
+<div id="confetti"></div>
+<div id="banners"></div>
 
-  <div class="card">
-    <span class="badge">📜 Megasouye 10 — Salle du Trône 📜</span>
-    <h1>Validation de la Quête</h1>
-    <p class="sub">Reporte ici les huit indices récoltés au fil des épreuves</p>
+<div class="ms-header">
+  <div class="ms-stamp">Megasouye 10 · 2026</div>
+  <h1 class="ms-title">Validation de la Quête</h1>
+  <p class="ms-sub">Reporte ici les huit indices récoltés au fil des épreuves</p>
+</div>
+<hr class="ms-divider">
 
-    <div class="fields" id="fields"></div>
+<div class="ms-card">
+  <div class="fields" id="fields"></div>
+</div>
 
-    <button class="btn" id="check">Valider la quête</button>
-    <div class="feedback" id="feedback"></div>
+<button class="ms-btn" id="check">Valider la quête</button>
+<div class="feedback" id="feedback"></div>
+
+<div class="ms-footer">Megasouye 10 · Salle du Trône</div>
+
+<div id="gg">
+  <div class="gg-card">
+    <div class="crest">🏆 👑 🏆</div>
+    <h2>GG</h2>
+    <p>À définir</p>
   </div>
-
-  <div id="gg">
-    <div class="gg-card">
-      <div class="crest">🏆 👑 🏆</div>
-      <h2>GG</h2>
-      <p>À définir</p>
-    </div>
-  </div>
+</div>
 
 <script>
 const BASE = "../images/";
@@ -145,7 +143,6 @@ const HASHES = [
   "34bbd65c92bd87422fba5efda08e6c782ad3c716020a36fbedba2eb9cfbd491a",
   "c21addce3b8a991d318f8dfab8235d3dbb4bd727e173271e62c09ac2095c969d"
 ];
-
 const PREFILL = ["INDICE1","INDICE2","INDICE3","INDICE4","INDICE5","INDICE6","INDICE7","INDICE8"];
 
 const fieldsEl = document.getElementById("fields");
@@ -168,7 +165,6 @@ for(let i=1;i<=NB;i++){
 }
 
 function clearFb(){ const f=document.getElementById("feedback"); f.textContent=""; f.className="feedback"; }
-
 async function sha256(str){
   const buf=await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -194,21 +190,15 @@ document.getElementById("check").addEventListener("click", async ()=>{
     if(h===HASHES[i]) fieldsEl.children[i].classList.add("ok");
     else { fieldsEl.children[i].classList.add("bad"); allOk=false; }
   }
-  if(allOk){
-    fb.textContent="";
-    celebrate();
-  } else {
+  if(allOk){ fb.textContent=""; celebrate(); }
+  else {
     inputs.forEach((inp,i)=>fieldsEl.children[i].classList.remove("ok","bad"));
     fb.textContent="❌ Certains indices ne sont pas les bons. Vérifie ta quête.";
     fb.className="feedback ko";
   }
 });
 
-function celebrate(){
-  launchConfetti();
-  dropBanners();
-  setTimeout(()=>{ document.getElementById("gg").classList.add("show"); }, 900);
-}
+function celebrate(){ launchConfetti(); dropBanners(); setTimeout(()=>{ document.getElementById("gg").classList.add("show"); }, 900); }
 
 function launchConfetti(){
   const wrap=document.getElementById("confetti");
@@ -219,21 +209,15 @@ function launchConfetti(){
     c.style.left=Math.random()*100+"vw";
     c.style.background=colors[Math.floor(Math.random()*colors.length)];
     c.style.transform="rotate("+Math.random()*360+"deg)";
-    const dur=2.6+Math.random()*2.2;
-    const delay=Math.random()*0.8;
-    const drift=(Math.random()*2-1)*120;
+    const dur=2.6+Math.random()*2.2; const delay=Math.random()*0.8; const drift=(Math.random()*2-1)*120;
     c.animate(
-      [
-        {transform:`translate(0,0) rotate(0deg)`, opacity:1},
-        {transform:`translate(${drift}px, 105vh) rotate(${720+Math.random()*360}deg)`, opacity:.9}
-      ],
-      {duration:dur*1000, delay:delay*1000, easing:"cubic-bezier(.2,.6,.4,1)", fill:"forwards"}
-    );
+      [{transform:`translate(0,0) rotate(0deg)`, opacity:1},
+       {transform:`translate(${drift}px, 105vh) rotate(${720+Math.random()*360}deg)`, opacity:.9}],
+      {duration:dur*1000, delay:delay*1000, easing:"cubic-bezier(.2,.6,.4,1)", fill:"forwards"});
     wrap.appendChild(c);
     setTimeout(()=>c.remove(), (dur+delay)*1000+200);
   }
 }
-
 function dropBanners(){
   const wrap=document.getElementById("banners");
   const emblems=["⚔️","🛡️","👑","🐉","🏰","🗡️","⚜️","🦅"];
@@ -241,19 +225,11 @@ function dropBanners(){
   for(let i=0;i<N;i++){
     const b=document.createElement("div"); b.className="banner";
     b.style.left=(4+i*12)+"vw";
-    const em=document.createElement("div"); em.className="emblem";
-    em.textContent=emblems[i%emblems.length];
-    b.appendChild(em);
-    wrap.appendChild(b);
-    const delay=i*0.12;
+    const em=document.createElement("div"); em.className="emblem"; em.textContent=emblems[i%emblems.length];
+    b.appendChild(em); wrap.appendChild(b);
     b.animate(
-      [
-        {transform:"translateY(0)"},
-        {transform:"translateY(60px)"},
-        {transform:"translateY(50px)"}
-      ],
-      {duration:1100, delay:delay*1000, easing:"cubic-bezier(.3,1.4,.5,1)", fill:"forwards"}
-    );
+      [{transform:"translateY(0)"},{transform:"translateY(60px)"},{transform:"translateY(50px)"}],
+      {duration:1100, delay:i*120, easing:"cubic-bezier(.3,1.4,.5,1)", fill:"forwards"});
   }
 }
 </script>
